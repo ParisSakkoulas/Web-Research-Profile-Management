@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100% !important;
+  padding: 0% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.success_class .mat-dialog-container {
+  padding: 0%;
+  width: 600px;
+  height: 130px;
+  border-radius: 7px;
+}
+
+.refss_class_dialog .mat-dialog-container {
+  width: 1200px;
+  height: auto;
+}
+
+.author_class_dialog {
+  width: 1500px;
+  height: 500px;
+}
+
+.custom-tooltip-class {
+  background-color: rgb(94, 94, 94);
+  font-size: 14px;
+}
+
+.tooltip-title {
+  background-color: rgb(94, 94, 94);
+  font-size: 15px;
+}
+
+
+.info_pub_class {
+  width: 1500px;
+  height: auto;
+  border-radius: 7px;
+}
+
+
+
+@media (max-width:413px) {
+  .author_class_dialog {
+    height: 96%;
+  }
+}
