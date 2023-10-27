@@ -12,3 +12,6 @@ File Upload Capabilities: Users can upload presentation files and content files 
 Enhanced Collaboration: Operating within a robust social network framework, our system promotes networking and collaboration among researchers, academic professionals, teaching staff, and administrators. Users can connect with peers, stay updated on news and publications, and endorse each other's skills, fostering a vibrant academic community.
 
 Quality and User Experience: Our application boasts a feature-rich environment, ensuring a high level of quality in managing academic data. With a user-friendly interface and powerful features, it enhances the overall experience for researchers and members of the academic community.
+
+
+Watch some actions here :  https://youtu.be/YiPjXM8boso
