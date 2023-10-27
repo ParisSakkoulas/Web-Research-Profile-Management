@@ -1,0 +1,62 @@
+<div class="dialog_body">
+
+  <div class="table_class">
+    <h2>External Publications Found</h2>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef> Select. </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox [(ngModel)]="row.selected" (change)="onCheckboxChange(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title |truncate:[60]}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef> Year </th>
+        <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+    <mat-card class="mat-elevation-z0">
+      <mat-card-actions>
+        <button mat-raised-button (click)="close()">Close</button>
+        <button mat-raised-button (click)="addSelectedValues()">Add Selected</button>
+      </mat-card-actions>
+
+    </mat-card>
+
+
+  </div>
+
+
+
+</div>

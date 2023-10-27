@@ -1,0 +1,750 @@
+<div class="fullBodyCreatePublication">
+
+
+  <mat-progress-bar mode="indeterminate" *ngIf="(status$ | async) === 'loading'"></mat-progress-bar>
+  <div class="spacerFromForm"></div>
+
+  <div class="optionOfCreateType">
+    <div class="headerCreatePublication">
+      <h2>Add
+        Publication</h2><button mat-icon-button
+        matTooltip="Add your publication manually or find one using an identifier such as Title , DOI , arXiv or ISBN"
+        matTooltipClass="custom-tooltip-class" class="buttonHelp">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button>
+    </div>
+
+    <mat-radio-group [(ngModel)]="addOption">
+      <mat-radio-button class="example-margin" value="Manually" checked>Manually</mat-radio-button>
+      <mat-radio-button class="example-margin" value="IdBased">Based on identifier</mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+
+  <div class="createPublicationForm" *ngIf="addOption === 'Manually'">
+    <form [formGroup]="addPublicationForm" (ngSubmit)="onSavePublication()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput required formControlName="title">
+        <mat-error *ngIf="addPublicationForm.controls['title'].invalid">You must enter a title</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Section</mat-label>
+        <mat-select formControlName="section" required>
+          <mat-option *ngFor="let section of sections" [value]="section">
+            {{section}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addPublicationForm.controls['section'].invalid">You must select a section</mat-error>
+      </mat-form-field>
+
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Abstract</mat-label>
+        <textarea rows="8" cols="80" matInput formControlName="abstract"></textarea>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Year</mat-label>
+        <input matInput formControlName="year">
+        <mat-error *ngIf="addPublicationForm.controls['year'].invalid">Enter valid year</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>ISBN</mat-label>
+        <input matInput formControlName="isbn" matTooltip="10 or 13 digits" matTooltipPosition="before" value=null>
+        <mat-error *ngIf="addPublicationForm.controls['isbn'].invalid">ISBN should have 10 or 13 digits</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>DOI</mat-label>
+        <input matInput formControlName="doi" matTooltip="Add DOI to make the paper more discoverable"
+          matTooltipPosition="before" value=null>
+        <mat-error *ngIf="addPublicationForm.controls['doi'].invalid">DOI should be like ex.
+          http://dx.doi.org/10.1093/ajae/aaq063</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tag
+        </mat-label>
+
+        <mat-chip-list #chipGrid>
+          <mat-chip *ngFor="let tag of tags" (removed)="remove(tag.keyword)">
+            {{tag.keyword}}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+
+        <input matInput type="text" [matAutocomplete]="auto" #tagInput [formControl]="tagCtrl"
+          [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)" />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let tag of tagsBack | filterPipe: (tagCtrl.value || '')"
+            [value]="tag">{{tag.keyword}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <form [formGroup]="addArticleForm" class="articleForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Article'">
+        <mat-form-field appearance="outline">
+          <mat-label>Jurnal</mat-label>
+          <input matInput formControlName="jurnal" required>
+          <mat-error *ngIf="addArticleForm.controls['jurnal'].invalid">You must enter a title</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Number</mat-label>
+          <input matInput type="number" formControlName="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Volume</mat-label>
+          <input matInput type="number" formControlName="volume">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pages</mat-label>
+          <input matInput formControlName="pages">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="bookForm" (ngSubmit)="onSavePublication()" class="bookForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Book'">
+        <mat-form-field appearance="outline">
+          <mat-label>Publisher</mat-label>
+          <input matInput formControlName="publisher" required>
+          <mat-error *ngIf="bookForm.controls['publisher'].invalid">Publisher name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Volume</mat-label>
+          <input matInput type="number" formControlName="volume">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Series</mat-label>
+          <input matInput formControlName="series">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pages</mat-label>
+          <input matInput formControlName="pages">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Version</mat-label>
+          <input matInput formControlName="version">
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="proceedingsForm" (ngSubmit)="onSavePublication()" class="proceedingsForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Proceedings'">
+        <mat-form-field appearance="outline">
+          <mat-label>Editor</mat-label>
+          <input matInput formControlName="editor" required>
+          <mat-error *ngIf="proceedingsForm.controls['editor'].invalid">Editor 's name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Series</mat-label>
+          <input matInput formControlName="series">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pages</mat-label>
+          <input matInput formControlName="pages">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Organization</mat-label>
+          <input matInput formControlName="organization">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Publisher</mat-label>
+          <input matInput formControlName="publisher">
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="thesisForm" (ngSubmit)="onSavePublication()" class="thesisForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Thesis'">
+        <mat-form-field appearance="outline">
+          <mat-label>School</mat-label>
+          <input matInput formControlName="school" required>
+          <mat-error *ngIf="thesisForm.controls['school'].invalid">Editor 's name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type" required>
+            <mat-option *ngFor="let type of thesisType" [value]="type" required>
+              {{type}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="thesisForm.controls['type'].invalid">You must select a section</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="bockChapterForm" (ngSubmit)="onSavePublication()" class="bockChapterForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Book Chapter'">
+        <mat-form-field appearance="outline">
+          <mat-label>Chapter</mat-label>
+          <input matInput formControlName="chapter" required>
+          <mat-error *ngIf="bockChapterForm.controls['chapter'].invalid">Editor 's name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Publisher</mat-label>
+          <input matInput formControlName="publisher" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pages</mat-label>
+          <input matInput formControlName="pages" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Volume</mat-label>
+          <input matInput type="number" formControlName="volume">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Series</mat-label>
+          <input matInput formControlName="series">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <input matInput formControlName="type">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month" required>
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Version</mat-label>
+          <input matInput formControlName="version">
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="techicalReportForm" (ngSubmit)="onSavePublication()" class="techicalReportForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Tech Report'">
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Number</mat-label>
+          <input matInput formControlName="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <input matInput formControlName="type">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <input matInput formControlName="year" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Institution</mat-label>
+          <input matInput formControlName="institution" required>
+        </mat-form-field>
+      </form>
+
+      <form [formGroup]="otherForm" (ngSubmit)="onSavePublication()" class="techicalReportForm"
+        *ngIf="addPublicationForm.controls['section'].value === 'Other'">
+        <mat-form-field appearance="outline">
+          <mat-label>Sub Type</mat-label>
+          <input matInput formControlName="subType" required>
+          <mat-error *ngIf="otherForm.controls['subType'].invalid">You must enter a Sub Type</mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Grant Number</mat-label>
+          <input matInput formControlName="grantNumber">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Pages</mat-label>
+          <input matInput formControlName="pages">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="month">
+            <mat-option *ngFor="let month of months" [value]="month" required>
+              {{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Notes</mat-label>
+        <textarea rows="3" matInput formControlName="notes"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Authors</mat-label>
+        <mat-chip-list #chipGridAuthors>
+          <mat-chip *ngFor="let author of authorsSelectedNew" (removed)="removeAuthor(author)">
+            {{ author.firstName }} {{ author.lastName }}
+            <button
+              *ngIf="!(currentUserData.firstName === author.firstName && currentUserData.lastName === author.lastName)"
+              matChipRemove [attr.aria-label]="'remove ' + author">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+
+        <input matInput [formControl]="authorsCtrl" (keyup)="sendDataSimpleSearch($event)"
+          [matAutocomplete]="autoForAuthors" [matChipInputFor]="chipGridAuthors"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        <mat-autocomplete #autoForAuthors="matAutocomplete" (optionSelected)="addAuthor($event)">
+
+
+          <div *ngIf="authorsSearchLoading">
+            <mat-spinner diameter="50"></mat-spinner>
+          </div>
+
+
+          <mat-option (click)="openAuthorAddManually()">Add Manuall <mat-icon><span class="material-symbols-outlined">
+                add_circle
+              </span></mat-icon>
+          </mat-option>
+
+          <mat-option *ngIf="authorsSearchResultNotFound" disabled>
+            Nothing Found
+          </mat-option>
+          <mat-optgroup label="First Name Based" *ngIf="(filteredFirstNameBasedOptions | async)?.length ?? 0 > 0">
+            <mat-option *ngFor="let option of filteredFirstNameBasedOptions | async" [value]="option">
+              {{option.firstName}} {{option.lastName}}
+            </mat-option>
+          </mat-optgroup>
+
+          <mat-optgroup label="Last Name Based" *ngIf="(filteredLastNameBasedOptions | async)?.length ?? 0 > 0">
+            <mat-option *ngFor="let option of filteredLastNameBasedOptions | async" [value]="option">
+              {{option.firstName}} {{option.lastName}}
+            </mat-option>
+          </mat-optgroup>
+
+          <mat-optgroup label="User Name Based" *ngIf="(filteredUserNameBasedOptions | async)?.length ?? 0 > 0">
+            <mat-option *ngFor="let option of filteredUserNameBasedOptions | async" [value]="option">
+              {{option.firstName}} {{option.lastName}}
+            </mat-option>
+          </mat-optgroup>
+
+          <mat-optgroup label="External First Name Bassed"
+            *ngIf="(filteredExternalUserFirstNameBasedOptions | async)?.length ?? 0 > 0">
+            <mat-option *ngFor="let option of filteredExternalUserFirstNameBasedOptions | async" [value]="option">
+              {{option.firstName}} {{option.lastName}}
+            </mat-option>
+          </mat-optgroup>
+
+          <mat-optgroup label="External Last Name Bassed"
+            *ngIf="(filteredExternalUserLastNameBasedOptions | async)?.length ?? 0 > 0">
+            <mat-option *ngFor="let option of filteredExternalUserLastNameBasedOptions | async" [value]="option">
+              {{option.firstName}} {{option.lastName}}
+            </mat-option>
+          </mat-optgroup>
+
+
+
+
+
+        </mat-autocomplete>
+
+
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Publication Place</mat-label>
+
+        <mat-chip-list #chipGridPublicationPlace>
+          <mat-chip *ngIf="publicationPlace">{{publicationPlace.name}}
+            {{publicationPlace.type}}</mat-chip>
+        </mat-chip-list>
+
+
+        <input matInput [formControl]="publicationPlaceCrtl" [matAutocomplete]="autoForPublicationPlaces"
+          [matChipInputFor]="chipGridPublicationPlace" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (keyup)="sendDataPublicationPlaceSearch($event)">
+
+        <mat-autocomplete #autoForPublicationPlaces="matAutocomplete" (optionSelected)="addPlace($event)">
+          <mat-option matTooltip="You can add Publication Place Manually" matTooltipClass="custom-tooltip-class"
+            (click)="openPublicationPlaceAddManually()">Add Manuall
+            <mat-icon><span class="material-symbols-outlined">
+                add_circle
+              </span></mat-icon>
+          </mat-option>
+
+          <mat-option *ngFor="let option of filteredPublicationPlacesOptions | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+
+        </mat-autocomplete>
+
+      </mat-form-field>
+
+
+
+      <div class="referencesField">
+        <mat-form-field appearance="outline">
+          <mat-label>References</mat-label>
+          <input matInput [(ngModel)]="reference" [formControl]="referencesCtrl" (keyup)="sendDatat($event)"
+            [matAutocomplete]="autoForRefs">
+        </mat-form-field>
+        <mat-autocomplete #autoForRefs="matAutocomplete">
+
+          <mat-option (click)="openAddManulaRef()">Add Manuall <mat-icon><span class="material-symbols-outlined">
+                add_circle
+              </span></mat-icon>
+          </mat-option>
+          <mat-option *ngIf="referencesLoading">
+            <div class="ref_is_loading">
+              <mat-spinner diameter="50"></mat-spinner>
+            </div>
+          </mat-option>
+          <div *ngIf="!referencesLoading">
+            <mat-optgroup label="External Publications">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Internal Publications">
+              <mat-option *ngFor="let option of filtereInternaldOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-optgroup>
+          </div>
+
+        </mat-autocomplete>
+        <button color="primary" mat-icon-button (click)="addReference(reference)"
+          type="button"><mat-icon>playlist_add</mat-icon></button>
+      </div>
+
+
+      <div class="reference_chips" *ngIf="references.length > 0">
+        <div class="reference_chip_list">
+          <mat-chip-list aria-label="Enter fruits">
+            <mat-chip *ngFor="let ref of references; let i = index;" (removed)="removeReference(i)">
+              {{ref | truncate:[50]}}
+              <button matChipRemove [attr.aria-label]="'remove ' + ref">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <div class="button_section">
+          <button mat-stroked-button (click)="clearRefTable()">Clear All</button>
+        </div>
+
+      </div>
+
+
+      <div class="importCardClass" *ngIf="mode ==='create'" (click)="fileUpload.click()">
+        <input type="file" (change)="onFileSelected($event)" accept=".pdf, .odp" #fileUpload>
+        <button class="typeClassButton" type="button" mat-icon-button>
+          <span class="material-symbols-outlined">
+            upload_file
+          </span>
+        </button>
+        <div class="messageFiles">
+          <div *ngIf="!fileSected">No Content uploaded yet.</div>
+          <div *ngIf="fileSected">Selected Content File <b>{{fileName}}</b></div>
+        </div>
+      </div>
+
+      <div class="importCardClass" *ngIf="mode ==='create'" (click)="filePresentantionUpload.click()">
+        <input type="file" (change)="onFilePresentantionSelected($event)"
+          accept=".pptx, .pptm, .ppt,  .pptm,  .potx, .potm, .pot, .ppsx, .ppsm, .pps .ppam" #filePresentantionUpload>
+        <button class="typeClassButton" type="button" mat-icon-button>
+          <span class="material-symbols-outlined">
+            upload_file
+          </span>
+        </button>
+        <div class="messageFiles">
+          <div *ngIf="!fileSectedPresentantion">No Presentantion File Uploaded Yet.</div>
+          <div *ngIf="fileSectedPresentantion">Selected Presentantion File <b>{{fileNamePresentantion}}</b></div>
+        </div>
+      </div>
+
+      <div class="settingsFilesClass" *ngIf="mode ==='edit'">
+        <mat-list>
+          <div mat-subheader>Content Files ({{contentFiles.length}})</div>
+
+          <mat-list-item *ngFor="let contentFile of contentFiles">
+            <mat-icon matListItemIcon><span class="material-symbols-outlined">
+                folder
+              </span></mat-icon>
+            <div matListItemTitle>{{contentFile.filename}}</div>
+            <mat-icon matListItemIcon [matMenuTriggerFor]="menuContentFileSetting"><span
+                class="buttonMenu material-symbols-outlined">
+                more_vert
+              </span></mat-icon>
+            <mat-menu #menuContentFileSetting="matMenu">
+
+
+              <button mat-menu-item
+                (click)="dialogForReplaceContentFile(contentFile.content_file_id,contentFile.filename)">
+                <mat-icon><span class="material-symbols-outlined">
+                    change_circle
+                  </span></mat-icon>
+                <span>Replace</span>
+              </button>
+
+              <button mat-menu-item (click)="downloadContentFile(contentFile.content_file_id,contentFile.filename)">
+                <mat-icon><span class="material-symbols-outlined">
+                    download
+                  </span></mat-icon>
+                <span>Download</span>
+              </button>
+
+              <button mat-menu-item (click)="removeContentFile(contentFile.content_file_id)">
+                <mat-icon><span>
+                    delete
+                  </span></mat-icon>
+                <span>Remove</span>
+              </button>
+            </mat-menu>
+          </mat-list-item>
+
+
+          <div mat-subheader>Presentantion Files ({{presentantionFiles.length}})</div>
+          <mat-list-item *ngFor="let presentantionFile of presentantionFiles">
+            <mat-icon matListItemIcon><span class="material-symbols-outlined">
+                folder
+              </span></mat-icon>
+            <div matListItemTitle>{{presentantionFile.filename}}</div>
+            <mat-icon matListItemIcon [matMenuTriggerFor]="menuPresentantionFileSetting"><span
+                class="material-symbols-outlined ">
+                more_vert
+              </span></mat-icon>
+
+            <mat-menu #menuPresentantionFileSetting="matMenu">
+
+
+              <button mat-menu-item
+                (click)="dialogForReplacePresentantionFile(presentantionFile.presentantion_file_id,presentantionFile.filename)">
+                <mat-icon><span class="material-symbols-outlined">
+                    change_circle
+                  </span></mat-icon>
+                <span>Replace</span>
+              </button>
+
+              <button mat-menu-item
+                (click)="downloadPresentantionFile(presentantionFile.presentantion_file_id,presentantionFile.filename)">
+                <mat-icon><span class="material-symbols-outlined">
+                    download
+                  </span></mat-icon>
+                <span>Download</span>
+              </button>
+
+              <button mat-menu-item (click)="removePresentantionFile(presentantionFile.presentantion_file_id)">
+                <mat-icon><span>
+                    delete
+                  </span></mat-icon>
+                <span>Remove</span>
+              </button>
+
+            </mat-menu>
+          </mat-list-item>
+
+
+        </mat-list>
+
+
+
+      </div>
+
+
+
+
+
+      <div class="access-section">
+        <section>
+
+
+          <mat-radio-group class="example-radio-group" aria-label="Access" formControlName="accessibility"
+            [(ngModel)]="selectedAccess">
+            <mat-radio-button class="example-radio-button" value="Public">Public</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="Private">Private</mat-radio-button>
+          </mat-radio-group>
+        </section>
+      </div>
+
+
+
+      <div class="newClass">
+        <button [disabled]="referencesLoading" mat-flat-button color="primary" type="submit"
+          class="saveButton">Save</button>
+      </div>
+
+
+      <div class="spacer"></div>
+    </form>
+  </div>
+
+
+
+
+  <div class="searchIdBasedClas" *ngIf="addOption === 'IdBased'">
+
+    <div class="formTitle">
+      <h3 align="center">Please select the identifier option from the dropdown menu and enter the information to
+        search
+      </h3>
+    </div>
+
+    <form class="idSelectionClass" *ngIf="addOption === 'IdBased'" [formGroup]="searchPublicationForm">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Identifier</mat-label>
+        <mat-select [(ngModel)]="selectedOption" formControlName="identifier" required>
+          <mat-option *ngFor="let identifier of identifiers" [value]="identifier">
+            {{identifier}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="searchPublicationForm.controls['identifier'].invalid">You must select identifier</mat-error>
+      </mat-form-field>
+    </form>
+
+    <form class="doiSelectionClass" [formGroup]="searchPublicationDoiForm" (ngSubmit)="onSearchPublication()"
+      *ngIf="selectedOption === 'DOI'">
+      <mat-form-field appearance="outline">
+        <mat-label>DOI</mat-label>
+        <input matInput formControlName="doiSearch" (keyup)="sendDoiData($event)">
+        <mat-error *ngIf="searchPublicationDoiForm.controls['doiSearch'].invalid">Please enter a valid DOI number in the
+          format
+          '10.xxxx/xxx...xxx' or 'https://doi.org/10.xxxx/xxx...xxx'.</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="searchButton">Add</button>
+    </form>
+
+    <form class="arxivSelectionClass" [formGroup]="searchPublicationArxivForm" (ngSubmit)="onSearchPublication()"
+      *ngIf="selectedOption === 'aRxiv'">
+      <mat-form-field appearance="outline">
+        <mat-label>aRxiv</mat-label>
+        <input matInput formControlName="aRxivSearch">
+        <mat-error *ngIf="searchPublicationArxivForm.controls['aRxivSearch'].invalid">Please enter a valid
+          aRxiv.</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="searchButton">Add</button>
+    </form>
+
+
+    <form class="ISBNSelectionClass" [formGroup]="searchPublicationISBNForm" (ngSubmit)="onSearchPublication()"
+      *ngIf="selectedOption === 'ISBN'">
+      <mat-form-field appearance="outline" *ngIf="selectedOption === 'ISBN'">
+        <mat-label>ISBN</mat-label>
+        <input matInput formControlName="isbnSearch">
+        <mat-error *ngIf="searchPublicationISBNForm.controls['isbnSearch'].invalid">Please enter a valid
+          ISBN.</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="searchButton">Add</button>
+
+    </form>
+
+
+    <form class="TitleSelectionClass" [formGroup]="searchPublicationTitleForm" (ngSubmit)="onSearchPublication()"
+      *ngIf="selectedOption === 'Title'">
+      <mat-form-field appearance="outline" *ngIf="selectedOption === 'Title'">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="titleSearch">
+        <mat-error *ngIf="searchPublicationTitleForm.controls['titleSearch'].invalid">Please enter a Title.</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="searchButton">Add</button>
+    </form>
+
+  </div>
+
+</div>

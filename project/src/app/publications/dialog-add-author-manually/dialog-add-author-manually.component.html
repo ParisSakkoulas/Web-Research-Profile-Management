@@ -1,0 +1,33 @@
+<div class="fullBody">
+
+  <p mat-dialog-title>Add External Author</p>
+  <form [formGroup]="createExternalAuthorForm" (ngSubmit)="onAddExternalAuthor()" *ngIf="!addingExternalAuthor">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="firstName">
+      <mat-error *ngIf="createExternalAuthorForm.controls['firstName'].invalid">Please enter First Name
+        name.</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName">
+      <mat-error *ngIf="createExternalAuthorForm.controls['lastName'].invalid">Please enter a Last Name.</mat-error>
+    </mat-form-field>
+
+
+    <mat-dialog-actions>
+      <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+      <button class="mat-raised-button mat-primary" type="submit">Add</button>
+    </mat-dialog-actions>
+
+  </form>
+
+
+  <div class="spinner_class" *ngIf="addingExternalAuthor">
+    <mat-spinner></mat-spinner>
+  </div>
+
+
+</div>

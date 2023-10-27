@@ -1,0 +1,103 @@
+<div class="bodyPlaces">
+
+
+  <div class="navigation">
+    <div>
+      <a [routerLink]="['/publications']">Home</a>&nbsp;>&nbsp;<a [routerLink]="['/places']">&nbsp;Publication
+        Places&nbsp;</a>&nbsp;
+    </div>
+
+  </div>
+
+  <div class="headerPlaces">
+    <mat-card class="headerCard mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>All Publication Places<button mat-icon-button (click)="openAddPublicationPlace()">
+            <mat-icon><span class="material-symbols-outlined">
+                add_circle
+              </span></mat-icon>
+          </button></mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <div class="filterPlaces" *ngIf="displayedPublicationPlaces.length>0">
+    <mat-card class="mat-elevation-z8">
+      <mat-form-field>
+        <mat-label>Search Place</mat-label>
+        <input matInput type="text" [(ngModel)]="filterValue" (input)="applyFilter()">
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <div class="filterPlaces" *ngIf="displayedPublicationPlaces.length==0">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>No Places Found</mat-card-title>
+      </mat-card-header>
+
+    </mat-card>
+  </div>
+
+  <div class="contentPlaces" *ngIf="displayedPublicationPlaces.length>0">
+    <mat-card class="mat-elevation-z8">
+      <mat-card class="singleCard mat-elevation-z0" *ngFor="let place of displayedPublicationPlaces">
+
+        <mat-card-header>
+          <mat-card-title>
+            {{place.name}}
+            <button mat-icon-button [matMenuTriggerFor]="placeSettingMenu">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #placeSettingMenu="matMenu">
+              <button mat-menu-item [routerLink]="['/singlePlace/'+place.publication_place_id]">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+              <button mat-menu-item (click)="openEditPublicationPlace(place.publication_place_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    edit
+                  </span></mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="deleteSinglePlace(place.publication_place_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    delete
+                  </span></mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{place.type}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+
+        </mat-card-content>
+        <mat-divider></mat-divider>
+
+      </mat-card>
+    </mat-card>
+
+  </div>
+
+
+  <div class="paginatorClass" *ngIf="displayedPublicationPlaces.length>0">
+    <mat-card class="mat-elevation-z8">
+
+
+      <mat-paginator [length]="totalPublicationPlaces" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="currentPage" (page)="onPageChange($event)">
+      </mat-paginator>
+    </mat-card>
+  </div>
+  <div class="spacer"></div>
+
+
+
+</div>

@@ -1,0 +1,66 @@
+.body {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7%;
+}
+
+
+.fullBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+mat-paginator {
+  margin-top: 7%
+}
+
+
+mat-card {
+  width: 100%;
+  margin-top: 7%
+}
+
+mat-card span {
+  vertical-align: middle;
+}
+
+mat-card span {
+  margin-right: 1%;
+}
+
+mat-card span {
+  margin-left: 1%;
+}
+
+
+.mat-card button {
+  position: absolute;
+  top: 1px;
+  right: 5px;
+  font-size: 24px;
+}
+
+
+@media (max-width : 809px) {
+
+  mat-card {
+    width: 75%;
+  }
+
+}
+
+@media (max-width:547px) {
+  mat-card {
+    width: 87%;
+  }
+}

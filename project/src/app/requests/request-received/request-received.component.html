@@ -1,0 +1,68 @@
+<div class="fullBody">
+
+  <div class="title">
+
+    <h1>Requests Received</h1>
+
+  </div>
+
+
+  <div class="body" *ngIf="totalRequestsReceived > 0">
+
+
+    <mat-card class="mat-elevation-z4" *ngFor="let request of displayedRequestsReceived">
+
+      <mat-card-header>
+
+        <mat-card-title>Request for {{request.file_type}} file ({{request.fileName}}) from
+          {{request.user.firstName}} {{request.user.lastName}}</mat-card-title>
+
+
+
+        <mat-card-subtitle>{{request.createdAt | date}}</mat-card-subtitle>
+        <mat-card-subtitle><span class="material-symbols-outlined">
+            person
+          </span>{{request.user.userName}}<span class="material-symbols-outlined">
+            mail
+          </span>{{request.user.email}}</mat-card-subtitle>
+
+
+
+
+
+
+      </mat-card-header>
+
+      <mat-card-actions *ngIf="request.state==='pending'">
+        <button mat-stroked-button color="primary" (click)="acceptRequest(request.request_file_id)">ACCEPT</button>
+        <button mat-stroked-button color="warn" (click)="declineRequest(request.request_file_id)">DECLINE</button>
+      </mat-card-actions>
+
+      <mat-card-actions *ngIf="request.state==='declined'">
+        <button mat-stroked-button color="warn" disabled>DECLINED</button>
+        <button mat-stroked-button color="warn" (click)="removeRequest(request.request_file_id)">REMOVE</button>
+
+      </mat-card-actions>
+
+      <mat-card-actions *ngIf="request.state==='accepted'">
+        <button mat-stroked-button color="warn" disabled>ACCEPTED</button>
+        <button mat-stroked-button color="warn" (click)="removeRequest(request.request_file_id)">REMOVE</button>
+
+      </mat-card-actions>
+
+
+
+    </mat-card>
+
+
+
+    <mat-paginator [length]="totalRequestsReceived" [pageSize]="pageSizeRequestsReceived"
+      [pageIndex]="currentPageRequestsReceived" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+    </mat-paginator>
+
+
+  </div>
+  <div *ngIf="totalRequestsReceived === 0">
+    <h1>No Requests</h1>
+  </div>
+</div>

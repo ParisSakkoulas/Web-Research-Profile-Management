@@ -1,0 +1,107 @@
+<div class="fullBody">
+
+  <p mat-dialog-title>Edit Publication Place</p>
+  <form [formGroup]="createPublicationPlace" (ngSubmit)="onUpdatePublicationPlace()" *ngIf="!addingPublicationPlace">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="createPublicationPlace.controls['name'].invalid">Please enter a Name
+        name.</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" hideRequiredMarker="true">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createPublicationPlace.controls['type'].invalid">You must select a Tyoe</mat-error>
+    </mat-form-field>
+
+    <form [formGroup]="createJournalForm" class="journalForm"
+      *ngIf="createPublicationPlace.controls['type'].value === 'Journal'">
+      <mat-form-field appearance="outline">
+        <mat-label>Abbreviation</mat-label>
+        <input matInput formControlName="abbreviation" required>
+        <mat-error *ngIf="createJournalForm.controls['abbreviation'].invalid">You must enter an abbreviation</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Publisher</mat-label>
+        <input matInput formControlName="publisher" required>
+        <mat-error *ngIf="createJournalForm.controls['publisher'].invalid">You must enter a publisher</mat-error>
+      </mat-form-field>
+    </form>
+
+
+    <form [formGroup]="createConferenceForm" class="journalForm"
+      *ngIf="createPublicationPlace.controls['type'].value === 'Conference'">
+      <mat-form-field appearance="outline">
+        <mat-label>Abbreviation</mat-label>
+        <input matInput formControlName="abbreviation" required>
+        <mat-error *ngIf="createConferenceForm.controls['abbreviation'].invalid">You must enter an
+          abbreviation</mat-error>
+      </mat-form-field>
+    </form>
+
+    <form [formGroup]="createBookForm" class="bookForm"
+      *ngIf="createPublicationPlace.controls['type'].value === 'Book'">
+      <mat-form-field appearance="outline">
+        <mat-label>Publisher</mat-label>
+        <input matInput formControlName="publisher" required>
+        <mat-error *ngIf="createBookForm.controls['publisher'].invalid">Publisher name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Volume</mat-label>
+        <input matInput type="number" formControlName="volume">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Series</mat-label>
+        <input matInput formControlName="series">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pages</mat-label>
+        <input matInput formControlName="pages">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>Month</mat-label>
+        <mat-select formControlName="month">
+          <mat-option *ngFor="let month of months" [value]="month">
+            {{month}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Version</mat-label>
+        <input matInput formControlName="version">
+      </mat-form-field>
+    </form>
+
+
+    <mat-dialog-actions>
+      <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+      <button class="mat-raised-button mat-primary" type="submit">Save</button>
+    </mat-dialog-actions>
+
+  </form>
+
+
+  <div class="spinner_class" *ngIf="addingPublicationPlace">
+    <mat-spinner></mat-spinner>
+  </div>
+
+
+</div>

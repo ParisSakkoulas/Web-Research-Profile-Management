@@ -1,0 +1,50 @@
+<h2>Authors Found</h2>
+<mat-accordion class="accortion_authors_class" multi *ngIf="!addingPapers">
+
+  <mat-accordion *ngIf="authors.length > 0">
+    <mat-expansion-panel *ngFor="let author of displayedAuthors">
+      <mat-expansion-panel-header>
+        {{ author.author }}
+      </mat-expansion-panel-header>
+      <div class="author_metadata_class">
+        <p>Current Job : {{ author.current_job }}</p>
+
+        <h3>Interests: <button mat-icon-button (click)="toggleExpandInterestMode()">
+            <span class="material-symbols-outlined">
+              {{expand_interest_mode}}
+            </span>
+          </button></h3>
+        <mat-chip-list *ngIf="expand_interest_mode === 'expand_less'">
+          <mat-chip *ngFor="let interest of author.interests">
+            {{interest}}
+          </mat-chip>
+        </mat-chip-list>
+        <h3>Some Publications:
+          <button mat-icon-button (click)="toggleExpandPublicationMode()">
+            <span class="material-symbols-outlined">
+              {{expand_publications_mode}}
+            </span>
+          </button>
+        </h3>
+        <mat-list *ngIf="expand_publications_mode === 'expand_less'">
+          <mat-list-item *ngFor="let publication of author.pubications"> {{ publication.title }} ({{ publication.year
+            }})</mat-list-item>
+        </mat-list>
+
+
+
+
+      </div>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="addAuthorsPaper(author.author_id,author.author)">Add</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-paginator [length]="totalAuthors" [pageSize]="pageSize" [pageIndex]="currentPage" (page)="onPageChange($event)">
+  </mat-paginator>
+</mat-accordion>
+
+<div class="spinner_class" *ngIf="addingPapers">
+  <h2>Please be patience. It will take some time . . .</h2>
+  <mat-spinner></mat-spinner>
+</div>

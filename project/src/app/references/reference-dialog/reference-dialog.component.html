@@ -1,0 +1,67 @@
+<div class="dialog_body">
+
+  <div class="table_class">
+    <h2>External Publications Found</h2>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element let i = index"> {{i + 1}}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef id="title"> Title </th>
+        <td mat-cell *matCellDef="let element"><span class="trim" matTooltip="{{element.title}}"
+            matTooltipClass="tooltip">{{element.title |
+            truncate:[40]}}</span>
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef> Year </th>
+        <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef> Link </th>
+        <td mat-cell *matCellDef="let element"> <button mat-icon-button (click)="viewReferenceLink(element.link)"
+            matTooltip="Visit Publication" matTooltipClass="tooltip">
+            <span class="material-symbols-outlined">
+              link
+            </span>
+          </button></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+    </table>
+    <mat-paginator [length]="this.refs.length" [pageSize]="5" [pageSizeOptions]="[3, 5, 13]"></mat-paginator>
+  </div>
+
+  <div class="actions" mat-dialog-actions>
+    <button mat-button color="warn" (click)="close()">Cancel</button>
+    <button mat-button color="primary" (click)="onAddReferences()">Add</button>
+  </div>
+
+
+</div>

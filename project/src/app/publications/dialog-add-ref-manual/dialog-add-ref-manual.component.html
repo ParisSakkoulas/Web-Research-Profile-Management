@@ -1,0 +1,38 @@
+<div class="fullBody">
+
+  <p mat-dialog-title>Add External Publication Reference</p>
+  <form [formGroup]="createExternalRefForm" (ngSubmit)="onAddExternalRef()" *ngIf="!addingExternalRefAuthor">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="title">
+      <mat-error *ngIf="createExternalRefForm.controls['title'].invalid">Please enter First Name
+        name.</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Year</mat-label>
+      <input matInput formControlName="year">
+      <mat-error *ngIf="createExternalRefForm.controls['year'].invalid">Please enter a valid year.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Link</mat-label>
+      <input matInput formControlName="link">
+    </mat-form-field>
+
+
+    <mat-dialog-actions>
+      <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+      <button class="mat-raised-button mat-primary" type="submit">Add</button>
+    </mat-dialog-actions>
+
+  </form>
+
+
+  <div class="spinner_class" *ngIf="addingExternalRefAuthor">
+    <mat-spinner></mat-spinner>
+  </div>
+
+
+</div>

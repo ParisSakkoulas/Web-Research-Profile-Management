@@ -1,0 +1,71 @@
+<div class="searchPublicationFullBody">
+
+  <div class="cardClass">
+    <h1>Enter Researcher 's Name <button mat-icon-button
+        matTooltip="Add your name on the field and press the button on the right for search. We will find your research papers!"
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></h1>
+    <form [formGroup]="searchPublicationsForm" (ngSubmit)="searchPublicationBasedOnAuthor()">
+      <mat-form-field appearance="outline">
+        <mat-label>Author Name</mat-label>
+        <input matInput formControlName="authorName">
+        <mat-error *ngIf="searchPublicationsForm.controls['authorName'].invalid">Please enter author name.</mat-error>
+      </mat-form-field>
+      <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <span class="material-symbols-outlined">
+          search
+        </span>
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <h1>OR</h1>
+  </div>
+
+
+  <div class="importCardClass">
+
+    <h1>Import Description File<button mat-icon-button
+        matTooltip="To use the system, please provide either a .bib file or an RDF file."
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></h1>
+
+
+
+    <input type="file" (change)="onFileSelected($event)" accept=".bib,.rdf" #fileUpload>
+    <button class="typeClassButton" mat-icon-button (click)="fileUpload.click()">
+      <span class="material-symbols-outlined">
+        upload_file
+      </span>
+    </button>
+
+    <div class="messageFiles">
+      <div *ngIf="!fileSected">No files uploaded yet.</div>
+      <div *ngIf="typeFiles">System supports only .bib and .rdf files.</div>
+
+      <div *ngIf="fileSected">Selected File <b>{{fileName}}</b></div>
+    </div>
+
+
+    <button *ngIf="fileSected" class="actionButton" mat-stroked-button color="primary" (click)="uploadFile()"><span
+        class="material-symbols-outlined">
+        upload
+      </span>Upload
+    </button>
+
+
+  </div>
+
+
+  <div class="spacer"></div>
+
+
+
+</div>

@@ -1,0 +1,35 @@
+<div class="messageForDeletionHeader">
+
+  <p mat-dialog-title>Replace Files for {{publicationName}}</p>
+  <p>You can upload Content or Presentantion Files.</p>
+</div>
+
+<div class="contentFile">
+
+  <div class="uploadContentFileClass" (click)="fileUpload.click()">
+    <input type="file" (change)="onFileContentSelected($event)" accept=".pdf, .odp" #fileUpload>
+    <button class="typeClassButton" type="button" mat-icon-button>
+      <span class="material-symbols-outlined">
+        upload_file
+      </span>
+    </button>
+    <div class="messageFiles">
+      <div *ngIf="!fileSected">No Content uploaded yet.</div>
+      <div *ngIf="fileSected">Replace <b><span class="oldNameText">{{content_file_name}}</span></b> with
+        <b>{{fileName}}</b>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedFile" class="accessForPresentantionFile">
+    <mat-radio-group aria-label="Access" [(ngModel)]="selectedAccessContentFile">
+      <mat-radio-button [value]="'Public'">Public</mat-radio-button>
+      <mat-radio-button [value]="'Private'">Private</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+
+  <mat-dialog-actions>
+    <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+    <button class="mat-raised-button mat-primary" (click)="replace()">Upload</button>
+  </mat-dialog-actions>

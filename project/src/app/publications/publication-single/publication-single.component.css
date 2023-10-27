@@ -1,0 +1,319 @@
+.fullBody {
+  width: 100%;
+  height: 100%;
+}
+
+.spacer {
+  margin: 10%;
+}
+
+.headerUpperBody {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+  background-color: #FFFFFF;
+
+}
+
+.headerCard {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerCard mat-card-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerCard mat-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.horizontal-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mat-list-item {
+  flex-basis: 20%;
+  padding: 0 8px;
+}
+
+.bodyCard {
+  height: auto;
+  display: flex;
+  flex-direction: column-reverse;
+
+}
+
+.singleResearchCard a {
+  text-decoration: none;
+  color: black;
+}
+
+.singleResearchCard a:hover {
+  text-decoration: underline;
+}
+
+
+
+mat-card-title h1 {
+  font-weight: 500;
+}
+
+mat-card-subtitle a {
+  color: inherit;
+}
+
+.access_icon mat-icon {
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+
+.authors {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+
+.overviewBody,
+.referencesBody,
+.statsBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+
+
+
+.abstractCart,
+.statCard,
+.notesCard,
+.similarResearchesCard,
+.paperInfoCard,
+.viewFullTextCard,
+.referencesCard {
+  width: 70%;
+  border-radius: 0px;
+  margin-top: 4%;
+}
+
+
+
+
+mat-card-content {
+  padding: 2%;
+}
+
+.viewFullTextCardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewFullTextCardContent mat-icon {
+  font-size: 30px;
+}
+
+.viewFullTextCard .material-symbols-outlined {
+  font-size: 100px;
+}
+
+
+h1 .material-symbols-outlined {
+  font-size: 20px;
+}
+
+mat-nav-list .material-symbols-outlined {
+  display: none;
+  font-size: 30px;
+}
+
+mat-chip-list .material-symbols-outlined {
+  font-size: 30px;
+}
+
+
+
+.internalReferencesCards mat-expansion-panel {
+  margin-top: 3%;
+}
+
+.externalReferencesCards mat-card {
+  margin-top: 3%;
+}
+
+
+.singleResearchCard {
+  border-radius: 0px;
+  margin-top: 4%;
+}
+
+.author-container {
+  display: block;
+  text-align: start;
+  /* Optional center alignment */
+}
+
+.author {
+  display: inline-block;
+  margin-top: 2px;
+  margin-right: 11px;
+  /* Optional margin between elements */
+}
+
+
+.contentList mat-icon {
+  margin: 3%;
+}
+
+.contentList mat-icon:hover {
+  cursor: pointer;
+}
+
+
+.authorsInsideCard mat-list-item:hover {
+  background-color: #f0f9ff;
+  cursor: pointer;
+}
+
+
+.authorsInsideCard button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 24px;
+}
+
+.requestButtonFile {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+
+.example-radio-group {
+  display: flex;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 18px;
+}
+
+
+.paperInfoCard mat-list {
+  padding: 3%;
+  color: red;
+
+}
+
+@media (max-width:920px) {
+
+  .headerUpperBody mat-list-item:nth-child(n+5) {
+    display: none;
+  }
+
+
+  mat-nav-list .material-symbols-outlined {
+    display: block;
+    font-size: 30px;
+  }
+
+  mat-chip-list .material-symbols-outlined {
+    display: block;
+    font-size: 30px;
+  }
+
+  .statCard {
+    width: 90%;
+  }
+
+}
+
+
+
+
+@media (max-width:700px) {
+
+  .abstractCart,
+  .statCard,
+  .notesCard,
+  .similarResearchesCard,
+  .paperInfoCard,
+  .viewFullTextCard,
+  .referencesCard {
+    width: 90%;
+  }
+
+
+}
+
+@media (max-width:53px) {
+
+  .author-container:nth-child(3) {
+    display: none;
+  }
+
+}
+
+@media (max-width: 517px) {
+
+  .info mat-list-item:nth-child(1) {
+    margin-top: 7%;
+    margin-bottom: 7%;
+
+  }
+}
+
+
+@media (max-width:375px) {
+
+  .abstractCart,
+  .statCard,
+  .paperInfoCard,
+  .notesCard,
+  .similarResearchesCard,
+  .viewFullTextCard,
+  .referencesCard {
+    margin-top: 25px
+  }
+
+  .mat-list-item:nth-child(n+4) {
+    display: none;
+  }
+
+  ::ng-deep .mat-tab-header:nth-last-child(-n+1) {
+    display: none;
+  }
+
+  .spacer {
+    display: 15%;
+  }
+
+  .info mat-list-item:nth-child(1) {
+    margin-top: 15%;
+    margin-bottom: 15%;
+
+  }
+
+}

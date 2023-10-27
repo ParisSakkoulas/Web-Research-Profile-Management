@@ -1,0 +1,28 @@
+.fullBodySinglePublicationPlace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.infoClassPublicationPlace {
+  margin: 4%;
+  width: 80%;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 10%;
+  margin: 4%;
+}
+
+.navigation a {
+  color: black;
+}
+
+mat-card {
+  border-radius: 15px;
+}

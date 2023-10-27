@@ -1,0 +1,106 @@
+.searchPublicationFullBody {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardClass {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.importCardClass {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.typeClassButton {
+  transform: scale(4);
+}
+
+.importCardClass input {
+  display: none
+}
+
+.importCardClass h1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 30%;
+}
+
+h1 span {
+  vertical-align: middle;
+}
+
+.actionButton span {
+  vertical-align: middle;
+}
+
+.menuClass {
+  font-size: 17px;
+  padding: 3%;
+}
+
+.cardClass form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.spacer {
+  margin-bottom: 4%;
+}
+
+.messageFiles {
+  margin-top: 4%;
+}
+
+
+mat-form-field {
+  width: 70%;
+}
+
+
+@media (max-width : 435px) {
+
+
+  .typeClassButton {
+    transform: scale(3);
+  }
+
+  mat-form-field {
+    width: 90%;
+  }
+
+  .cardClass {
+    width: 90%;
+  }
+
+  .cardClass h1 {
+    font-size: 22px;
+
+  }
+
+  .importCardClass {
+    width: 90%;
+  }
+
+  .importCardClass h1 {
+    width: 90%;
+
+  }
+
+}

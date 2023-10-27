@@ -1,0 +1,195 @@
+<div class="fullBodyPublicationsList">
+
+
+
+  <div class="cardHeaderSettings">
+    <mat-card class="mat-elevation-z8">
+
+      <mat-card-header>
+        <h2>My Publications <button mat-icon-button
+            matTooltip="Here, you have access to all your publications. You can easily perform various actions, including editing, categorizing, selecting, viewing, exporting, uploading files, and deleting one or more publications simultaneously."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button></h2>
+      </mat-card-header>
+
+
+
+    </mat-card>
+  </div>
+
+
+
+
+
+  <div class="inputFilter">
+    <mat-card class="mat-elevation-z8">
+      <mat-form-field>
+        <mat-label>Search Publication</mat-label>
+        <input matInput type="text" [(ngModel)]="filterValue" (input)="applyFilterNew()">
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <div class="cardHeaderSophisticatedFilters">
+    <mat-card class="mat-elevation-z8">
+      <mat-form-field>
+        <mat-label>Section</mat-label>
+        <mat-select [(ngModel)]="selectedSection" name="section">
+          <mat-option *ngFor="let section of sections" [value]="section" (click)="applyFilterNew()">
+            {{section}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Access</mat-label>
+        <mat-select [(ngModel)]="selectedAccess" name="access">
+          <mat-option *ngFor="let a of access" [value]="a" (click)="applyFilterNew()">
+            {{a}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter Year</mat-label>
+        <input matInput [(ngModel)]="filterYearValue" (input)="applyFilterNew()">
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <div class="cardBodyList">
+    <mat-card class="mat-elevation-z8">
+
+      <mat-card class="singleCard mat-elevation-z0" *ngIf="selectionEnabled">
+        <mat-card-header>
+          <mat-checkbox (change)="selectAllPublications()"
+            [checked]="true ? numOfSelections === myPublicationsCheck.length : false"
+            [(ngModel)]="selectAll"></mat-checkbox>
+          <mat-card-title>
+            <h1>Select All</h1>
+          </mat-card-title>
+
+          <button mat-icon-button [matMenuTriggerFor]="menuForMultiplePublications" *ngIf="isAuthenticated">
+            <mat-icon matListItemIcon>more_vert</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-menu #menuForMultiplePublications="matMenu">
+          <button mat-menu-item (click)="openDialogForExportSelectedPublications()">
+            <mat-icon><span class="material-symbols-outlined">
+                download
+              </span></mat-icon>
+            <span>Export Selected</span>
+          </button>
+
+          <button mat-menu-item (click)="openMoveManyPublicationsToCategoryDialog()">
+            <mat-icon><span class="material-symbols-outlined">
+                bookmark
+              </span></mat-icon>
+            <span>Add to Category</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon><span class="material-symbols-outlined">
+                select_check_box
+              </span></mat-icon>
+            <span>Select All</span>
+          </button>
+
+
+          <button mat-menu-item (click)="deleteSelectedPublicationOpenDialog()">
+            <mat-icon>delete</mat-icon>
+            <span>Delete Selected</span>
+          </button>
+
+
+        </mat-menu>
+
+      </mat-card>
+
+      <mat-card class="singleCard mat-elevation-z0" *ngFor="let publication of displayedPublications">
+
+        <mat-card-header>
+          <mat-checkbox [checked]="publication.selected" *ngIf="selectionEnabled"
+            (change)="selectPublication(publication.publication_id)"></mat-checkbox>
+          <mat-card-title>
+            <h1 mat-line><a [routerLink]="'/singlePublication/'+publication.publication_id">{{publication.title}}</a>
+            </h1>
+          </mat-card-title>
+          <button mat-icon-button [matMenuTriggerFor]="editMenu"
+            *ngIf="isAuthenticated && userId === publication.userId">
+            <mat-icon matListItemIcon>more_vert</mat-icon>
+          </button>
+          <mat-menu #editMenu="matMenu">
+            <button mat-menu-item [routerLink]="'/edit/'+publication.publication_id">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+
+            <button mat-menu-item (click)="movePublicationDialog(publication.publication_id,publication.title)">
+              <mat-icon><span class="material-symbols-outlined">
+                  bookmark
+                </span></mat-icon>
+              <span>Add to Category</span>
+            </button>
+
+            <button mat-menu-item (click)="selectPublication(publication.publication_id)">
+              <mat-icon><span class="material-symbols-outlined">
+                  select_check_box
+                </span></mat-icon>
+              <span>Select</span>
+            </button>
+
+            <button mat-menu-item
+              (click)="openDialogForExportSinglePublication(publication.publication_id,publication.title)">
+              <mat-icon><span class="material-symbols-outlined">
+                  download
+                </span></mat-icon>
+              <span>Export</span>
+            </button>
+
+            <button mat-menu-item
+              (click)="openDialogForUploadFilesForPublication(publication.publication_id,publication.title)">
+              <mat-icon><span class="material-symbols-outlined">
+                  upload_file
+                </span></mat-icon>
+              <span>Upload File</span>
+            </button>
+
+            <button mat-menu-item (click)="openDialogInfoPublication(publication.publication_id)">
+              <mat-icon><span class="material-symbols-outlined">
+                  info
+                </span></mat-icon>
+              <span>Info</span>
+            </button>
+
+            <button mat-menu-item (click)="openDialogForDeleteOne(publication.publication_id,publication.title)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+
+
+          </mat-menu>
+          <mat-card-subtitle>{{publication.section}}&nbsp;&nbsp;<span
+              *ngIf="publication.year">({{publication.year}})</span></mat-card-subtitle>
+        </mat-card-header>
+
+      </mat-card>
+
+    </mat-card>
+  </div>
+
+  <div class="paginatorClass">
+    <mat-card class="mat-elevation-z8">
+
+
+      <mat-paginator [length]="totalPublications" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="currentPage" (page)="onPageChange($event)">
+      </mat-paginator>
+    </mat-card>
+  </div>
+  <div class="spacer"></div>
+
+</div>

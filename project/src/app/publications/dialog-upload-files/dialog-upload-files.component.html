@@ -1,0 +1,91 @@
+<div class="messageForDeletionHeader">
+
+  <p mat-dialog-title>Upload Files for {{publicationName}}<button
+      matTooltip="You have the capability to upload files for presentations in (.ppt) format or content in (.pdf) format to complement your publication."
+      matTooltipClass="custom-tooltip-class" mat-icon-button
+      aria-label="Example icon button with a vertical three dot icon">
+      <mat-icon><span class="material-symbols-outlined">
+          help
+        </span></mat-icon>
+    </button></p>
+  <p>You can upload Content or Presentantion Files.</p>
+  <div class="filesExists" *ngIf="presentantionFiles.length >0">
+    Presentantion Files exists :
+    <div *ngFor="let presentantionFile of presentantionFiles"> <b>{{presentantionFile.filename}}</b>,
+    </div>
+  </div>
+  <div class="filesExists" *ngIf="contentFiles.length >0">
+    Content Files exists :
+    <div *ngFor="let contentFile of contentFiles"> <b>{{contentFile.filename}}</b>,
+    </div>
+  </div>
+</div>
+
+
+<div class="bodyUpload">
+
+
+
+  <div class="presentantionFile">
+    <div class="uploadPresentantionFileClass" (click)="filePresentantionUpload.click()">
+
+      <input type="file" (change)="onFilePresentantionSelected($event)"
+        accept=".pptx, .pptm, .ppt,  .pptm,  .potx, .potm, .pot, .ppsx, .ppsm, .pps .ppam" #filePresentantionUpload>
+      <button class="typeClassButton" type="button" mat-icon-button>
+        <span class="material-symbols-outlined">
+          upload_file
+        </span>
+      </button>
+      <div class="messageFiles">
+        <div *ngIf="!fileSectedPresentantion">No Presentantion File Uploaded Yet.</div>
+        <div *ngIf="fileSectedPresentantion">Selected Presentantion File <b>{{fileNamePresentantion}}</b></div>
+      </div>
+
+    </div>
+
+
+    <div *ngIf="fileSectedPresentantion" class="accessForPresentantionFile">
+      <mat-radio-group aria-label="Access" [(ngModel)]="selectedAccessPresentantionFile">
+        <mat-radio-button [value]="'Public'">Public</mat-radio-button>
+        <mat-radio-button [value]="'Private'">Private</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+  </div>
+
+
+  <div class="contentFile">
+
+    <div class="uploadContentFileClass" (click)="fileUpload.click()">
+      <input type="file" (change)="onFileContentSelected($event)" accept=".pdf, .odp" #fileUpload>
+      <button class="typeClassButton" type="button" mat-icon-button>
+        <span class="material-symbols-outlined">
+          upload_file
+        </span>
+      </button>
+      <div class="messageFiles">
+        <div *ngIf="!fileSected">No Content uploaded yet.</div>
+        <div *ngIf="fileSected">Selected Content File <b>{{fileName}}</b></div>
+      </div>
+    </div>
+
+
+
+
+    <div *ngIf="fileSected" class="accessForPresentantionFile">
+      <mat-radio-group aria-label="Access" [(ngModel)]="selectedAccessContentFile">
+        <mat-radio-button [value]="'Public'">Public</mat-radio-button>
+        <mat-radio-button [value]="'Private'">Private</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+
+
+
+</div>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+  <button class="mat-raised-button mat-primary" (click)="upload()">Upload</button>
+</mat-dialog-actions>

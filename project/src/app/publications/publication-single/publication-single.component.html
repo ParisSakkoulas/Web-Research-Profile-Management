@@ -1,0 +1,589 @@
+<mat-progress-bar mode="indeterminate" *ngIf="!publicationFound"></mat-progress-bar>
+<div class="fullBody" *ngIf="publication">
+
+  <div class="headerUpperBody">
+    <mat-card class="headerCard mat-elevation-z0">
+      <mat-card-header>
+        <mat-card-subtitle class="access_icon">{{publication.section}} <mat-icon
+            *ngIf="publication.accessibility === 'Public'" matTooltip="Public Access"
+            matTooltipClass="custom-tooltip-class">public</mat-icon><mat-icon
+            *ngIf="publication.accessibility === 'Private'" matTooltip="Private Access"
+            matTooltipClass="custom-tooltip-class">lock</mat-icon></mat-card-subtitle>
+        <mat-card-title>
+          <h1>{{publication.title}}
+
+            <button mat-icon-button *ngIf="publication.userId === userId"
+              [matMenuTriggerFor]="menuForSinglePublication">
+              <span class="material-symbols-outlined">
+                more_vert
+              </span>
+            </button>
+            <mat-menu #menuForSinglePublication="matMenu">
+              <button mat-menu-item [routerLink]="'/edit/'+publication.publication_id">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+
+              <button mat-menu-item (click)="movePublicationDialog(publication.publication_id,publication.title)">
+                <mat-icon><span class="material-symbols-outlined">
+                    bookmark
+                  </span></mat-icon>
+                <span>Add to Category</span>
+              </button>
+
+              <button mat-menu-item
+                (click)="openDialogForExportSinglePublication(publication.publication_id,publication.title)">
+                <mat-icon><span class="material-symbols-outlined">
+                    download
+                  </span></mat-icon>
+                <span>Export</span>
+              </button>
+
+              <button mat-menu-item
+                (click)="openDialogForUploadFilesForPublication(publication.publication_id,publication.title)">
+                <mat-icon><span class="material-symbols-outlined">
+                    upload_file
+                  </span></mat-icon>
+                <span>Upload File</span>
+              </button>
+
+
+              <button mat-menu-item (click)="openDialogForDeleteOne(publication.publication_id,publication.title)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </h1>
+        </mat-card-title>
+        <mat-card-subtitle *ngIf="publication.doi">DOI : <a href="https://doi.org/{{publication.doi}}"
+            target="_blank">{{publication.doi}}</a></mat-card-subtitle>
+        <mat-card-subtitle class="authors">
+          {{publication.year}}
+        </mat-card-subtitle>
+
+        <mat-card-subtitle *ngIf="tags.length>0">
+          <mat-chip-list>
+            <mat-chip *ngFor="let tag of tags let i = index"
+              [ngStyle]="hideTags && i >= tags.length - (tags.length/2) ? { 'display': 'none' } : null">
+              {{tag}}
+            </mat-chip>
+            <button mat-icon-button (click)="toogleTags()">
+
+              <span class="material-symbols-outlined more">
+                {{imageMoreTags}}
+              </span>
+            </button>
+          </mat-chip-list>
+        </mat-card-subtitle>
+
+        <mat-card-subtitle>
+          <mat-nav-list role="list" class="horizontal-list">
+            <mat-list-item role="listitem" matListItemTitle>Authors:</mat-list-item>
+            <mat-list-item *ngFor="let author of authorsNew" role="listitem">{{author.firstName}}
+              {{author.lastName}}</mat-list-item>
+
+            <button mat-icon-button [matMenuTriggerFor]="allAuthors">
+              <span class="material-symbols-outlined more">
+                more_horiz
+              </span>
+            </button>
+            <mat-menu #allAuthors="matMenu">
+              <button mat-menu-item *ngFor="let author of authorsNew">
+                <span>{{author.firstName}}
+                  {{author.lastName}}</span>
+              </button>
+            </mat-menu>
+          </mat-nav-list>
+
+
+
+        </mat-card-subtitle>
+      </mat-card-header>
+
+
+
+
+
+
+    </mat-card>
+  </div>
+
+
+  <mat-card class="bodyCard mat-elevation-z0">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+
+      <mat-tab label="Overview">
+
+        <div class="overviewBody">
+
+          <mat-card class="abstractCart mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>Abstract</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              {{publication.abstract}}
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="abstractCart mat-elevation-z2" *ngIf="userIsAuthenticated && currentUser.userRole!=='Admin'">
+            <mat-card-header>
+              <mat-card-title>
+                Files<button *ngIf="publication.userId !== userId" mat-icon-button
+                  matTooltip="If the file below is public, you can simply download it by clicking the 'Download' button. Alternatively, you can request the file from the user by using the 'Request' button."
+                  matTooltipClass=" custom-tooltip-class"><mat-icon><span class="material-symbols-outlined">
+                      help
+                    </span></mat-icon></button>
+                <button *ngIf="publication.userId === userId" mat-icon-button
+                  (click)="openDialogForUploadFilesForPublication(publication.publication_id,publication.title)"
+                  matTooltip="You can upload file for this publication"
+                  matTooltipClass=" custom-tooltip-class"><mat-icon><span class="material-symbols-outlined">
+                      upload_file
+                    </span></mat-icon></button>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <div class="contentList">
+                <mat-list>
+                  <div mat-subheader>Content Files ({{contentFiles.length}})</div>
+                  <mat-list-item *ngFor="let contentFile of contentFiles">
+                    <mat-icon matListItemIcon><span class="material-symbols-outlined">
+                        folder
+                      </span></mat-icon>
+                    <div matListItemTitle>{{contentFile.filename}}</div>
+                    <div *ngIf="publication.userId !== userId">
+
+                      <button class="requestButtonFile" mat-stroked-button color="accent"
+                        *ngIf="contentFile.access === 'private'"
+                        (click)="openDialogForRequestFile(contentFile.content_file_id,'Content',contentFile.filename)">Request
+                        File</button>
+                      <button class="requestButtonFile" mat-stroked-button color="primary"
+                        *ngIf="contentFile.access === 'public'"
+                        (click)="downloadContentFile(contentFile.content_file_id,contentFile.filename)">Download
+                        File</button>
+                    </div>
+                    <mat-icon matListItemIcon [matMenuTriggerFor]="menuContentFileSetting"
+                      *ngIf="publication.userId === userId"><span class="material-symbols-outlined">
+                        more_vert
+                      </span></mat-icon>
+
+
+                    <mat-menu #menuContentFileSetting="matMenu">
+                      <button mat-menu-item (click)="removeContentFile(contentFile.content_file_id)">
+                        <mat-icon><span>
+                            delete
+                          </span></mat-icon>
+                        <span>Remove</span>
+                      </button>
+
+                      <button mat-menu-item
+                        (click)="dialogForReplaceContentFile(contentFile.content_file_id,contentFile.filename)">
+                        <mat-icon><span class="material-symbols-outlined">
+                            change_circle
+                          </span></mat-icon>
+                        <span>Replace</span>
+                      </button>
+
+                      <button mat-menu-item
+                        (click)="downloadContentFile(contentFile.content_file_id,contentFile.filename)">
+                        <mat-icon><span class="material-symbols-outlined">
+                            download
+                          </span></mat-icon>
+                        <span>Download</span>
+                      </button>
+
+                    </mat-menu>
+                  </mat-list-item>
+
+                  <div mat-subheader>Presentantion Files ({{presentantionFiles.length}})</div>
+                  <mat-list-item *ngFor="let presentantionFile of presentantionFiles">
+                    <mat-icon matListItemIcon><span class="material-symbols-outlined">
+                        folder
+                      </span></mat-icon>
+                    <div matListItemTitle>{{presentantionFile.filename}}</div>
+                    <mat-icon matListItemIcon [matMenuTriggerFor]="menuPresentantionFileSetting"
+                      *ngIf="publication.userId === userId"><span class="material-symbols-outlined ">
+                        more_vert
+                      </span></mat-icon>
+                    <div *ngIf="publication.userId !== userId">
+
+
+                      <button class="requestButtonFile" mat-stroked-button color="accent"
+                        *ngIf="presentantionFile.access === 'Private'"
+                        (click)="openDialogForRequestFile(presentantionFile.presentantion_file_id,'Presentantion',presentantionFile.filename)">Request
+                        File</button>
+
+                      <button class="requestButtonFile" mat-stroked-button color="primary"
+                        *ngIf="presentantionFile.access === 'Public'"
+                        (click)="downloadPresentantionFile(presentantionFile.presentantion_file_id,presentantionFile.filename)">Download
+                        File</button>
+                    </div>
+                    <mat-menu #menuPresentantionFileSetting="matMenu">
+                      <button mat-menu-item (click)="removePresentantionFile(presentantionFile.presentantion_file_id)">
+                        <mat-icon><span>
+                            delete
+                          </span></mat-icon>
+                        <span>Remove</span>
+                      </button>
+
+                      <button mat-menu-item
+                        (click)="dialogForReplacePresentantionFile(presentantionFile.presentantion_file_id,presentantionFile.filename)">
+                        <mat-icon><span class="material-symbols-outlined">
+                            change_circle
+                          </span></mat-icon>
+                        <span>Replace</span>
+                      </button>
+
+                      <button mat-menu-item
+                        (click)="downloadPresentantionFile(presentantionFile.presentantion_file_id,presentantionFile.filename)">
+                        <mat-icon><span class="material-symbols-outlined">
+                            download
+                          </span></mat-icon>
+                        <span>Download</span>
+                      </button>
+
+                    </mat-menu>
+                  </mat-list-item>
+
+                </mat-list>
+
+              </div>
+
+
+            </mat-card-content>
+
+
+          </mat-card>
+
+
+          <mat-card class="abstractCart mat-elevation-z2" *ngIf="publicationPlace">
+            <mat-card-header>
+              <mat-card-title>
+                Publication Place
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{publicationPlace.name}} ({{publicationPlace.type}})
+              </mat-card-subtitle>
+            </mat-card-header>
+
+
+          </mat-card>
+
+
+
+          <mat-card class="paperInfoCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>Paper Info</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+            <mat-card-content class="info">
+              <mat-list role="list">
+                <mat-list-item *ngIf="publication.title" role="listitem">Title : {{publication.title}}</mat-list-item>
+                <mat-list-item *ngIf="publication.section" role="listitem">Section :
+                  {{publication.section}}</mat-list-item>
+                <mat-list-item *ngIf="publication.isbn" role="listitem">ISBN : {{publication.isbn}}</mat-list-item>
+                <mat-list-item *ngIf="publication.doi" role="listitem">DOI : {{publication.doi}}</mat-list-item>
+                <mat-list-item *ngIf="publication.year" role="listitem">Year : {{publication.year}}</mat-list-item>
+                <mat-list-item *ngIf="publication.accessibility" role="listitem">Access :
+                  {{publication.accessibility}}</mat-list-item>
+
+              </mat-list>
+
+
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="paperInfoCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>{{publication.section}}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <mat-list role="list" *ngIf="article">
+                <mat-list-item role="listitem">Journal : {{article.jurnal}}</mat-list-item>
+                <mat-list-item role="listitem">Number : {{article.number}}</mat-list-item>
+                <mat-list-item role="listitem">Volume : {{article.volume}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{article.pages}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{article.month}}</mat-list-item>
+              </mat-list>
+
+
+              <mat-list role="list" *ngIf="book">
+                <mat-list-item role="listitem">Publisher : {{book.publisher}}</mat-list-item>
+                <mat-list-item role="listitem">Volume : {{book.volume}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{book.pages}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{book.month}}</mat-list-item>
+                <mat-list-item role="listitem">Address : {{book.address}}</mat-list-item>
+                <mat-list-item role="listitem">Version : {{book.version}}</mat-list-item>
+              </mat-list>
+
+              <mat-list role="list" *ngIf="proceedings">
+                <mat-list-item role="listitem">Editor : {{proceedings.editor}}</mat-list-item>
+                <mat-list-item role="listitem">Series : {{proceedings.series}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{proceedings.pages}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{proceedings.month}}</mat-list-item>
+                <mat-list-item role="listitem">Organization : {{proceedings.organization}}</mat-list-item>
+                <mat-list-item role="listitem">Address : {{proceedings.address}}</mat-list-item>
+                <mat-list-item role="listitem">Publisher : {{proceedings.publisher}}</mat-list-item>
+              </mat-list>
+
+              <mat-list role="list" *ngIf="thesis">
+                <mat-list-item role="listitem">School : {{thesis.school}}</mat-list-item>
+                <mat-list-item role="listitem">Type : {{thesis.type}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{thesis.month}}</mat-list-item>
+                <mat-list-item role="listitem">Address : {{thesis.address}}</mat-list-item>
+              </mat-list>
+
+              <mat-list role="list" *ngIf="chapterBk">
+                <mat-list-item role="listitem">Chapter : {{chapterBk.chapter}}</mat-list-item>
+                <mat-list-item role="listitem">Publisher : {{chapterBk.publisher}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{chapterBk.pages}}</mat-list-item>
+                <mat-list-item role="listitem">Volume : {{chapterBk.volume}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{chapterBk.month}}</mat-list-item>
+                <mat-list-item role="listitem">Series : {{chapterBk.series}}</mat-list-item>
+                <mat-list-item role="listitem">Address : {{chapterBk.address}}</mat-list-item>
+                <mat-list-item role="listitem">version : {{chapterBk.version}}</mat-list-item>
+              </mat-list>
+
+              <mat-list role="list" *ngIf="techReport">
+                <mat-list-item role="listitem">Chapter : {{techReport.address}}</mat-list-item>
+                <mat-list-item role="listitem">Publisher : {{techReport.month}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{techReport.number}}</mat-list-item>
+                <mat-list-item role="listitem">Volume : {{techReport.type}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{techReport.month}}</mat-list-item>
+                <mat-list-item role="listitem">Series : {{techReport.tech_report_year}}</mat-list-item>
+                <mat-list-item role="listitem">Address : {{techReport.institution}}</mat-list-item>
+              </mat-list>
+
+              <mat-list role="list" *ngIf="other">
+                <mat-list-item role="listitem">SubType : {{other.subType}}</mat-list-item>
+                <mat-list-item role="listitem">Grant Number : {{other.grantNumber}}</mat-list-item>
+                <mat-list-item role="listitem">Pages : {{other.pages}}</mat-list-item>
+                <mat-list-item role="listitem">Month : {{other.month}}</mat-list-item>
+              </mat-list>
+
+            </mat-card-content>
+
+          </mat-card>
+
+          <mat-card class="paperInfoCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>Authors</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+              <div class="authorsInsideCard">
+                <mat-list role="list">
+                  <mat-list-item role="listitem" *ngFor="let author of authorsNew">
+                    <span matListItemTitle>{{author.firstName}}
+                      {{author.lastName}}</span>
+                    <button mat-icon-button [matMenuTriggerFor]="menuForAuthorHandling">
+                      <span class="material-symbols-outlined">
+                        more_vert
+                      </span>
+                    </button>
+                    <mat-menu #menuForAuthorHandling="matMenu">
+                      <button mat-menu-item (click)="moveToAuthor(author.id,author.type)">
+                        <mat-icon><span class="material-symbols-outlined">
+                            visibility
+                          </span></mat-icon>
+                        <span>View</span>
+                      </button>
+                    </mat-menu>
+                  </mat-list-item>
+                </mat-list>
+
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+
+
+          <mat-card class="notesCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>Notes</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <p>{{publication.notes}}</p>
+            </mat-card-content>
+          </mat-card>
+
+
+
+
+          <mat-card class="similarResearchesCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>Similar Research</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+
+              <mat-card class="singleResearchCard mat-elevation-z2" *ngFor="let similarResearch of similarResearches">
+                <mat-card-header>
+                  <mat-card-title> <a
+                      [routerLink]="'/singlePublication/'+similarResearch.publication_id">{{similarResearch.title}}</a></mat-card-title>
+
+                  <mat-card-subtitle class="similarResearchAuthors">
+
+                    <div class="similarResearchMetadata">
+                      {{similarResearch.section}} ({{similarResearch.year}})
+                    </div>
+                    <div class="author-container">
+                      <div *ngIf="authors.length >= 8">
+                        <div class="author" *ngFor="let author of authors | slice:0:5">{{author}}</div>...
+                      </div>
+                    </div>
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{similarResearch.abstract |truncate:[320]}}</p>
+                </mat-card-content>
+
+              </mat-card>
+
+
+            </mat-card-content>
+
+            <mat-card-actions><button mat-button color="primary">Load More</button></mat-card-actions>
+          </mat-card>
+
+        </div>
+
+
+      </mat-tab>
+
+
+
+      <mat-tab label="Stats">
+
+        <div class="statsBody">
+
+          <mat-card class="statCard">
+            <mat-card-header>
+              <mat-card-title>Stats</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content *ngIf="publicationStat">
+              <div class="UI" *ngIf="statsOption ==='UI'">
+
+                <h2>UI</h2>
+
+                <div style="width: 100%; height: 300px">
+                  <canvas baseChart [datasets]="barChartDataToSet" [labels]="barChartLabels" [options]="barChartOptions"
+                    [legend]="barChartLegend"></canvas>
+                </div>
+
+              </div>
+              <div class="Numbers" *ngIf="statsOption ==='Number'">
+                <h2>Number</h2>
+                <p>Citation : {{publicationStat.citations}}</p>
+                <p>References : {{publicationStat.references}}</p>
+                <p>Num of Exported Content File : {{publicationStat.num_of_exported_content_file}}</p>
+                <p>Num of Exported Presentation File : {{publicationStat.num_of_exported_presentation_file}}</p>
+                <p>Num of Request For Content File : {{publicationStat.reqs_of_exported_content_file}}</p>
+                <p>Num of Request For Presentation File : {{publicationStat.reqs_of_exported_presentation_file}}</p>
+              </div>
+
+
+            </mat-card-content>
+
+            <mat-card-actions>
+              <mat-radio-group [(ngModel)]="statsOption" class="example-radio-group">
+                <mat-radio-button class="example-radio-button" value="UI">UI</mat-radio-button>
+                <mat-radio-button class="example-radio-button" value="Number">Number</mat-radio-button>
+              </mat-radio-group>
+            </mat-card-actions>
+
+          </mat-card>
+
+        </div>
+
+
+      </mat-tab>
+      <div class="spacer"></div>
+
+
+      <mat-tab label="References ( {{refSize}} )">
+
+        <div class="referencesBody">
+
+          <mat-card class="referencesCard mat-elevation-z2">
+            <mat-card-header>
+              <mat-card-title>References</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+
+              <div class="internalReferencesCards" *ngFor="let ref of internalReferences">
+                <mat-accordion multi>
+                  <mat-expansion-panel class="mat-elevation-z0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{ref.title | truncate:[20]}}
+                      </mat-panel-title>
+
+                    </mat-expansion-panel-header>
+                    <p>{{ref.section}}</p>
+                    <h2>{{ref.title}}</h2>
+                    {{ref.abstract}}
+
+                    <mat-action-row>
+                      <button mat-button color="primary"
+                        (click)="viewReferencePublication(ref.publication_id)">View</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+
+
+              <div class="externalReferencesCards" *ngFor="let exRef of externalReferences">
+
+                <mat-accordion multi>
+                  <mat-expansion-panel class="mat-elevation-z0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{exRef.title | truncate:[60]}}
+                      </mat-panel-title>
+
+                    </mat-expansion-panel-header>
+                    <h2>{{exRef.title}}</h2>
+                    <p>{{exRef.year}}</p>
+
+                    <mat-action-row>
+                      <button mat-button color="primary" (click)="viewExReferencePublication(exRef.link)">View</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+                </mat-accordion>
+
+
+              </div>
+
+
+
+            </mat-card-content>
+          </mat-card>
+
+
+
+
+        </div>
+
+
+      </mat-tab>
+      <div class="spacer"></div>
+
+
+
+    </mat-tab-group>
+    <div class="spacer"></div>
+  </mat-card>
+
+
+  <div class="spacer"></div>
+
+</div>

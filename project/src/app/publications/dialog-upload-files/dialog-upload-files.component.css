@@ -1,0 +1,81 @@
+.bodyUpload {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.presentantionFile input,
+.contentFile input {
+  display: none
+}
+
+
+.presentantionFile {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadPresentantionFileClass,
+.uploadContentFileClass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.presentantionFile:hover {
+  cursor: pointer;
+  background-color: #e5f4ff;
+}
+
+.presentantionFile mat-radio-button,
+.contentFile mat-radio-button {
+  margin: 4%;
+
+}
+
+.contentFile {
+  padding: 2%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentFile:hover {
+  cursor: pointer;
+  background-color: #e5f4ff;
+}
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.filesExists {
+  display: flex;
+}
+
+
+@media (max-width:770px) {
+  .filesExists {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+
+@media (max-width:610px) {
+  .bodyUpload {
+    display: flex;
+    flex-direction: column;
+  }
+
+}

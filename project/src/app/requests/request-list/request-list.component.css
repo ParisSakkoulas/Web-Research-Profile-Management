@@ -1,0 +1,42 @@
+.fullBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+}
+
+mat-card {
+  margin-top: 10%;
+  width: 37%;
+  border-radius: 10px;
+}
+
+
+mat-card span {
+  vertical-align: middle;
+}
+
+mat-card:hover {
+  box-shadow: 7px 7px 7px 7px rgb(209, 221, 224);
+  cursor: pointer;
+}
+
+
+
+
+@media (max-width:660px) {
+
+  .fullBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+  }
+
+
+  mat-card {
+    width: 70%;
+  }
+
+}

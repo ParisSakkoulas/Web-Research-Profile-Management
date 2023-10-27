@@ -1,0 +1,40 @@
+<div class="fullBodySinglePublicationPlace" *ngIf="publicationPlace">
+
+
+  <div class="navigation">
+    <div>
+      <a [routerLink]="['/publications']">Home</a>&nbsp;>&nbsp;<a [routerLink]="['/places']">Publication
+        Places</a>&nbsp;>&nbsp;<a [routerLink]="['/singlePlace/'+publicationPlace.publication_place_id]">&nbsp;Single
+        Publication Place(
+        &nbsp;{{publicationPlace.name}}&nbsp;)</a>
+    </div>
+
+  </div>
+
+
+  <div class="infoClassPublicationPlace">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>{{publicationPlace.name}}</mat-card-title>
+        <mat-card-subtitle>{{publicationPlace.type}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+
+        <mat-list role="list" *ngIf="publicationPlace.journal">
+          <mat-list-item role="listitem">Abbreviation : {{publicationPlace.journal.abbreviation}}</mat-list-item>
+          <mat-list-item role="listitem">Publisher : {{publicationPlace.journal.publisher}}</mat-list-item>
+        </mat-list>
+
+        <mat-list role="list" *ngIf="publicationPlace.conference">
+          <mat-list-item role="listitem">Abbreviation : {{publicationPlace.conference.abbreviation}}</mat-list-item>
+        </mat-list>
+
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+
+</div>

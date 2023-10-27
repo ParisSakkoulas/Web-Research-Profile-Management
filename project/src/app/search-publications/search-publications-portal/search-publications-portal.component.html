@@ -1,0 +1,361 @@
+<div class="fullBody">
+
+
+  <div class="simpleCardClass" *ngIf="searchTypeSelection === 'Simple'">
+    <form [formGroup]="simpleSearchForm" (ngSubmit)="onSimpleSearch()">
+
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput formControlName="searchTerm" placeholder="Search something . . . . "
+          (keyup)="sendDataSimpleSearch($event)" [matAutocomplete]="autoSimpleSearch">
+
+        <mat-icon matSuffix class="cancel_icon" (click)="clearSimpleForm()"><span
+            class="material-symbols-outlined cancelBtn" *ngIf="formIsTouched">
+            cancel
+          </span></mat-icon>
+
+
+        <mat-autocomplete autoActiveFirstOption #autoSimpleSearch="matAutocomplete">
+
+          <mat-option *ngIf="internalPublicationsSearchLoading">
+            <div class="ref_is_loading">
+              <mat-spinner diameter="50"></mat-spinner>
+            </div>
+          </mat-option>
+
+          <div *ngIf="!internalPublicationsSearchLoading">
+
+
+            <mat-optgroup label="Title based">
+
+              <mat-option *ngFor="let option of filteredTitleBasedInternalSimpleOptions | async" [value]="option.title">
+                {{option.title}}
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="User based">
+              <mat-option *ngFor="let option of filteredAbstractBasedInternalSimpleOptions | async"
+                [value]="option.title">
+                {{option.title}}
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Year based">
+              <mat-option *ngFor="let option of filteredYearBasedInternalSimpleOptions | async" [value]="option.title">
+                {{option.title}}
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Abstract based">
+              <mat-option *ngFor="let option of filteredAbstractBasedInternalSimpleOptions | async"
+                [value]="option.title">
+                {{option.title}}
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Journal, Workshop and  Conference based">
+            </mat-optgroup>
+          </div>
+        </mat-autocomplete>
+
+      </mat-form-field>
+
+
+
+
+
+
+    </form>
+
+
+
+  </div>
+
+  <div class="sophisticatedCardClass" *ngIf="searchTypeSelection === 'Sophisticated'">
+
+    <h3 align="middle">Sophisticated Search Form<button mat-icon-button
+        matTooltip="Fill the form with the required field and the press 'Search Button'."
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></h3>
+    <form (ngSubmit)="onShopisticatedSearch()" #sophisticatedForm="ngForm">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" name="title">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Author</mat-label>
+        <input matInput [(ngModel)]="author" name="author">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Workshop - Journal - Conference</mat-label>
+        <input matInput [(ngModel)]="workshopJournal" name="workshopJournal">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Abstract</mat-label>
+        <textarea rows="8" cols="80" matInput [(ngModel)]="abstract" name="abstract"></textarea>
+      </mat-form-field>
+
+      <div class="includeYearClass">
+        <mat-checkbox (change)="onYearDisableChange($event)" name="disableYearFilter">Disable
+          Year Filter</mat-checkbox>
+        <button mat-icon-button type="button" matTooltip="Disable in Case the Publications does not include year"
+          matTooltipClass="custom-tooltip-class">
+          <span class="yearInfo material-symbols-outlined">
+            info
+          </span>
+        </button>
+
+
+      </div>
+
+      <mat-form-field>
+        <mat-label>Starting Year</mat-label>
+        <mat-select [(ngModel)]="startYear" [disabled]="disableYearFilter" (ngModelChange)="onStartingYearChange()"
+          name="startYear">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <mat-label>Ending Year</mat-label>
+        <mat-select [(ngModel)]="endYear" name="endYear" [disabled]="disableYearFilter">
+          <mat-option *ngFor="let year of years" [value]="year" [disabled]="year < startYear">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="actionFormClass">
+        <button mat-stroked-button type="button" color="warn" (click)="clearSophisticatedForm()">Clear</button>
+        <button mat-stroked-button type="submit" color="primary">Search</button>
+
+      </div>
+
+
+    </form>
+
+
+
+  </div>
+
+
+
+
+  <div class="settingsResultCardClass">
+
+
+    <mat-card class="settingsCardClass mat-elevation-z8">
+
+
+      <mat-card class="searchTypeSettings mat-elevation-z0">
+        <h3>Search Type <button mat-icon-button
+            matTooltip="At this point, you have the option to choose between a Simple or Advanced search. You can also specify whether the search should encompass all publications or just your own. Once you've configured your preferences, enter your search term and click the 'Search' button. For advanced searches, ensure you've populated the necessary fields before initiating the search."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button></h3>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+          [(ngModel)]="searchTypeSelection">
+          <mat-radio-button class="example-radio-button" *ngFor="let type of searchTypes" [value]="type">
+            {{type}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
+
+
+
+      <mat-card class="allOrMySearchPublications mat-elevation-z0">
+        <h3>All - My</h3>
+        <mat-radio-group (change)="onMyAllPubsChange($event)" class="example-radio-group" [(ngModel)]="searchAllOrMy">
+          <mat-radio-button class="example-radio-button" *ngFor="let type of searchAllOrMine" [value]="type">
+            {{type}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
+
+
+    </mat-card>
+
+
+    <div class="resultCardClass" *ngIf="searchTypeSelection === 'Simple'">
+
+
+      <h3 *ngIf="(filteredTitleBasedInternalSimpleOptions | async)?.length">Title Based</h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let p of currentPageDataTitleBased">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+
+      </mat-card>
+
+
+
+
+      <h3 *ngIf="(filteredYearBasedInternalSimpleOptions | async)?.length">Year Based</h3>
+      <mat-card class="yearBasedResult mat-elevation-z3" *ngFor="let p of currentPageDataYearBased">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filteredYearBasedInternalSimpleOptions | async)?.length">Author Based</h3>
+      <mat-card class="authorBasedResult mat-elevation-z3"
+        *ngFor="let p of filteredYearBasedInternalSimpleOptions | async">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filteredAbstractBasedInternalSimpleOptions | async)?.length">Abstract Based</h3>
+      <mat-card class="abstractBasedResult mat-elevation-z3" *ngFor="let p of currentPageDataAbstractBased">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filteredAbstractBasedInternalSimpleOptions | async)?.length">Journal, Workshop and Conference based
+      </h3>
+      <mat-card class="journalWorkShopBasedResult mat-elevation-z3"
+        *ngFor="let p of filteredAbstractBasedInternalSimpleOptions | async">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+      </mat-card>
+
+
+
+      <div
+        *ngIf="!(filteredAbstractBasedInternalSimpleOptions | async)?.length && !(filteredYearBasedInternalSimpleOptions | async)?.length && !(filteredTitleBasedInternalSimpleOptions | async)?.length">
+
+        <h3>No Publications Found</h3>
+      </div>
+
+    </div>
+
+    <div class="resultCardClass" *ngIf="searchTypeSelection === 'Sophisticated'" #resultCard>
+
+      <h3 *ngIf="(filteredSophisticatedResults | async)?.length">Sophisticated Results</h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let p of displayedResults">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="'/singlePublication/'+p.publication_id"><span matListItemLine>{{p.title}}</span></a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{p.section}} <span *ngIf="p.year">({{p.year}})</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-card-subtitle *ngIf="p.abstract">
+            {{(p.abstract | slice:0:250) + '...'}}
+          </mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button [routerLink]="'/singlePublication/'+p.publication_id">View</button>
+        </mat-card-actions>
+
+      </mat-card>
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+  <div class="paginatorCardClass" *ngIf="searchTypeSelection === 'Simple'">
+    <mat-paginator [length]="totalPublications" [pageSize]="pageSizeSimple" [pageIndex]="currentPageSimple"
+      [pageSizeOptions]="pageSizeOptions" (page)="onPageChangeSimple($event)" aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <div class="paginatorCardClass" *ngIf="searchTypeSelection === 'Sophisticated'">
+    <mat-paginator [length]="totalPublications" [pageSize]="pageSize" [pageIndex]="currentPage"
+      [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+
+  <div class="spacer"></div>
+
+
+
+</div>

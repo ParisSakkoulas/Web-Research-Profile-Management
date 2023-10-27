@@ -1,0 +1,107 @@
+.bodyPlaces {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerPlaces {
+  width: 80%;
+  margin: 3%;
+}
+
+
+.contentPlaces {
+  width: 80%;
+  margin-bottom: 4%;
+}
+
+.singleCard {
+  margin-bottom: 4%;
+}
+
+.navigation {
+  margin: 4%;
+}
+
+
+.singleCard button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+
+
+.paginatorClass {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filterPlaces {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4%;
+}
+
+.filterPlaces mat-card,
+.filterPlaces mat-form-field {
+  width: 100%;
+}
+
+.headerPlaces button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+
+
+
+
+
+
+.paginatorClass mat-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-paginator {
+  width: 100%;
+}
+
+.singleCard:hover {
+  background-color: #F6F6F6
+}
+
+mat-card {
+  border-radius: 15px;
+}
+
+
+
+
+@media (max-width : 945px) {
+
+  .headerCard {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .singleCard {
+    margin-bottom: 10%;
+  }
+
+  .navigation {
+    margin: 10%;
+  }
+
+}

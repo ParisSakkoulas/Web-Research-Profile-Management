@@ -1,0 +1,74 @@
+<div class="fullBody">
+
+  <div class="title">
+
+    <h1>Requests Send</h1>
+
+  </div>
+
+
+  <div class="body" *ngIf="totalrequestsCreated > 0">
+
+
+    <mat-card class="mat-elevation-z4" *ngFor="let request of displayedrequestsCreated">
+
+      <mat-card-header>
+
+        <mat-card-title *ngIf="request.file_type==='Content'">Request for {{request?.contentFile.filename}}<button
+            [matMenuTriggerFor]="requestMenu" mat-icon-button>
+            <mat-icon><span class="material-symbols-outlined">
+                more_vert
+              </span></mat-icon>
+          </button></mat-card-title>
+
+        <mat-card-title *ngIf="request.file_type==='Presentantion'">Request for
+          {{request?.presentantionFile.filename}}<button [matMenuTriggerFor]="requestMenu" mat-icon-button>
+            <mat-icon><span class="material-symbols-outlined">
+                more_vert
+              </span></mat-icon>
+          </button></mat-card-title>
+        <mat-menu #requestMenu="matMenu">
+          <button mat-menu-item (click)="deleteRequestCreated(request.request_file_id)">
+            <mat-icon><span class="material-symbols-outlined">
+                delete
+              </span></mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <mat-card-subtitle>{{request.createdAt | date}}</mat-card-subtitle>
+
+
+      </mat-card-header>
+
+      <mat-card-content>
+
+        State : {{request.state | titlecase}}<span *ngIf="request.state==='pending'" style="color:  grey;"
+          class="material-symbols-outlined">
+          pending
+        </span>
+
+        <span *ngIf="request.state==='accepted'" style="color:  green;" class="material-symbols-outlined">
+          check_circle
+        </span>
+
+        <span *ngIf="request.state==='declined'" style="color:  red;" class="material-symbols-outlined">
+          block
+        </span>
+      </mat-card-content>
+
+
+    </mat-card>
+
+
+
+    <mat-paginator [length]="totalrequestsCreated" [pageSize]="pageSizerequestsCreated"
+      [pageIndex]="currentPagerequestsCreated" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+    </mat-paginator>
+
+
+  </div>
+
+  <div *ngIf="totalrequestsCreated === 0">
+    <h1>No Requests</h1>
+  </div>
+</div>

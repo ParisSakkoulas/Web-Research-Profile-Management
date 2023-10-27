@@ -1,0 +1,25 @@
+<div class="body" *ngIf="publicationObj">
+  <h1 mat-dialog-title align="center">{{publicationObj.title}}</h1>
+
+
+  <mat-dialog-content>
+
+
+    <div class="descriptionClass">
+      <div>{{publicationObj.section}} {{publicationObj.year}}</div>
+      {{publicationObj.abstract}}
+    </div>
+
+
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of tags">{{tag.keyword}}</mat-chip>
+    </mat-chip-list>
+
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="center">
+    <button mat-stroked-button color="primary" mat-dialog-close>OK</button>
+  </mat-dialog-actions>
+</div>

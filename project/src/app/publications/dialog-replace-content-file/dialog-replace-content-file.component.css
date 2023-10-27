@@ -1,0 +1,21 @@
+.presentantionFile input,
+.contentFile input {
+  display: none
+}
+
+
+.oldNameText {
+  font-style: italic;
+}
+
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.accessForPresentantionFile mat-radio-button {
+  margin: 3%;
+}

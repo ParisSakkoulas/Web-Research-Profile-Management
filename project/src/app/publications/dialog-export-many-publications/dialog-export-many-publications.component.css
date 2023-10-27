@@ -1,0 +1,10 @@
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.typeSelection mat-radio-button {
+  margin: 2%;
+}

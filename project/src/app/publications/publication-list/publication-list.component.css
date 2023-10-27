@@ -1,0 +1,111 @@
+.fullBodyPublicationsList {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+}
+
+
+.spacer {
+  margin-bottom: 5%;
+}
+
+.cardHeaderSettings {
+  margin: 3%;
+  width: 80%;
+}
+
+.cardBodyList {
+  width: 80%;
+  margin-bottom: 4%;
+
+}
+
+.inputFilter {
+  margin: 3%;
+  width: 80%;
+}
+
+.inputFilter mat-form-field {
+  width: 100%;
+}
+
+.cardHeaderSophisticatedFilters {
+  margin: 3%;
+  width: 80%;
+}
+
+
+.cardHeaderSophisticatedFilters mat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.singleCard {
+  margin-bottom: 4%;
+}
+
+.singleCard:hover {
+  background-color: #F6F6F6
+}
+
+.singleCard h1 a {
+  text-decoration: none;
+  width: 100%;
+  white-space: normal;
+  color: black;
+}
+
+.singleCard h1 a:hover {
+  color: #76C7FF;
+}
+
+
+.singleCard button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+.singleCard mat-checkbox {
+  position: absolute;
+  top: 20px;
+  left: 5px;
+  font-size: 24px;
+}
+
+.paginatorClass {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.paginatorClass mat-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-paginator {
+  width: 100%;
+}
+
+
+@media (max-width: 870px) {
+
+  .cardHeaderSophisticatedFilters mat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
