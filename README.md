@@ -3,7 +3,7 @@ Welcome to our Academic Net web application designed to revolutionize the way ac
 
 Key Features:
 
-Streamlined Publication Management: Our application simplifies the process of adding publications and managing associated information. Users can input their publications effortlessly using their names, surnames, or specific publication details, ensuring hassle-free data entry.
+Publication Management: Our application simplifies the process of adding publications and managing associated information. Users can input their publications effortlessly using their names, surnames, or specific publication details, ensuring hassle-free data entry.
 
 Automated Publication Retrieval: Harnessing the power of technology, our application automatically fetches user publications from renowned online sources, saving valuable time and effort.
 
