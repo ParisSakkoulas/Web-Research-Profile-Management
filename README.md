@@ -14,4 +14,5 @@ Enhanced Collaboration: Operating within a robust social network framework, our 
 Quality and User Experience: Our application boasts a feature-rich environment, ensuring a high level of quality in managing academic data. With a user-friendly interface and powerful features, it enhances the overall experience for researchers and members of the academic community.
 
 
-Watch some actions here :  https://youtu.be/YiPjXM8boso
+Watch some actions here :  https://youtu.be/YiPjXM8boso 
+and here : https://youtu.be/6utLfX4sVms
