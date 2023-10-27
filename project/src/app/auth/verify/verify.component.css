@@ -1,0 +1,15 @@
+.successCard {
+  background-color: #87af87;
+  border-radius: 0px;
+
+}
+
+.failedCard {
+  background-color: #e29b9b;
+  border-radius: 0px;
+}
+
+.failedCard button,
+.successCard button {
+  margin-left: 2%;
+}

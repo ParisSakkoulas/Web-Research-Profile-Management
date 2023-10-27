@@ -1,0 +1,29 @@
+<div class="fullBody">
+  <p mat-dialog-title>Send Token
+    <button mat-icon-button matTooltipClass="custom-tooltip-class"
+      matTooltip="Please enter the email associated with your account to send you a new verification code.">
+      <span class="material-symbols-outlined">
+        help
+      </span>
+    </button>
+  </p>
+
+
+  <form [formGroup]="resentTokenForm" (ngSubmit)="onReset()">
+    <mat-form-field appearance="outline" hideRequiredMarker="true">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-error *ngIf="resentTokenForm.get('email')?.hasError('required')">Enter email</mat-error>
+      <mat-error *ngIf="resentTokenForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
+    </mat-form-field>
+
+
+
+    <mat-dialog-actions>
+      <button mat-flat-button type="button" (click)="closeMatDialog()">Close</button>
+      <button mat-flat-button color="primary" type="submit" class="saveButton">Send</button>
+    </mat-dialog-actions>
+  </form>
+
+
+</div>

@@ -1,0 +1,32 @@
+<div class="messageForDeletionHeader">
+
+  <p mat-dialog-title>Export Category?</p>
+  <p>Are you sure you want to export Publications from Category<b> "{{categoryName}}"</b> ?</p>
+  <p>Select file type.</p>
+
+</div>
+
+<div class="messageForDeletionBody">
+  <h2><span class="material-symbols-outlined">
+      download
+    </span> Export</h2>
+  <p mat-dialog-content>
+  <div class="typeSelection">
+    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+      [(ngModel)]="typeSelection">
+      <mat-radio-button class="example-radio-button" *ngFor="let type of exportingFileType" [value]="type">
+        {{type}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  Please confirm the type of file and the click <b>'Export'</b> to export or cancel by
+  clicking
+  <b>'Cancel'</b>
+
+</div>
+
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+  <button class="mat-raised-button mat-primary" (click)="export()">Export</button>
+</mat-dialog-actions>

@@ -1,0 +1,13 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+}
+
+
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

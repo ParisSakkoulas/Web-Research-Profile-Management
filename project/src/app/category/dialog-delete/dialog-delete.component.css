@@ -1,0 +1,35 @@
+.messageForDeletionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 128%;
+}
+
+
+.messageForDeletionBody {
+  padding: 2%;
+  background-color: #FFE9D9;
+  font-size: 128%;
+}
+
+
+.close-button {
+  position: fixed;
+  top: 33%;
+  right: 26%;
+}
+
+
+h2 {
+  align-content: center;
+}
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+mat-dialog-content {
+  font-size: 128%;
+}

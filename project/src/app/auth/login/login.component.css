@@ -1,0 +1,76 @@
+.formClass {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spacer {
+  margin-bottom: 10%;
+}
+
+.welcomeMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  width: 25%;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-error {
+  margin-bottom: 3%;
+}
+
+button {
+  margin-top: 5%;
+}
+
+.register_message {
+  margin-top: 3%;
+}
+
+p a {
+  text-decoration: none;
+}
+
+.forgetYourPassword {
+  margin-top: 0%;
+}
+
+.forgetYourPassword:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+
+mat-error {
+  font-size: 15px;
+}
+
+@media (max-width: 800px) {
+  .form {
+    width: 60%;
+  }
+
+  .register_message {
+    margin-top: 6%;
+  }
+}
+
+@media (max-width: 420px) {
+  .form {
+    width: 80%;
+  }
+
+
+}

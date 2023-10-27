@@ -1,0 +1,26 @@
+<div class="messageForDeletionHeader">
+
+  <p mat-dialog-title>Delete Category?</p>
+  <p>Are you sure you want to delete Publications from <b> "{{categoryName}}"</b> ?</p>
+  <p>You can undo this action.</p>
+
+</div>
+
+<div class="messageForDeletionBody">
+  <h2><span class="material-symbols-outlined">
+      warning
+    </span>Warning</h2>
+  <p mat-dialog-content>
+    Are you sure you want to proceed with deleting the publications of this category? This action will permanently
+    remove them from the system. Please confirm your decision by clicking
+    <b>'Delete'</b> or cancel by clicking <b>'Cancel'</b>.
+  </p>
+
+</div>
+
+
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+  <button class="mat-raised-button mat-warn" (click)="delete()">Delete</button>
+</mat-dialog-actions>

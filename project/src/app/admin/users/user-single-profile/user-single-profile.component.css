@@ -1,0 +1,117 @@
+.fullBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileHeader,
+.buttonsOption,
+.organizations,
+.jobs,
+.studies,
+.abilities,
+.interests,
+.email,
+.account,
+.info {
+  width: 77%;
+  margin-top: 3%;
+}
+
+
+
+
+.info form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info mat-form-field,
+.info mat-card-actions {
+  width: 77%;
+}
+
+
+.buttonsOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.buttonInfo {
+  position: absolute;
+  top: 5px;
+  transform: scale(1.1);
+}
+
+.buttonHandling {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  transform: scale(1.1);
+}
+
+
+.organization {
+  margin-top: 2%;
+}
+
+.moreButton {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  transform: scale(1.1);
+}
+
+.abilities,
+.interests,
+.email {
+  display: flex;
+  flex-direction: column;
+}
+
+.abilityList mat-chip,
+.interests mat-chip {
+  margin-bottom: 2%;
+}
+
+.abilities mat-card-header,
+.interests mat-card-header {
+  margin-bottom: 1%;
+}
+
+.email form {
+  display: flex;
+  flex-direction: column;
+}
+
+.email form button {
+  width: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@media (max-width : 760px) {
+
+  .buttonsOption {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+
+}
+
+
+@media (max-width : 300px) {
+
+  .buttonsOption {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 5px;
+  }
+
+}

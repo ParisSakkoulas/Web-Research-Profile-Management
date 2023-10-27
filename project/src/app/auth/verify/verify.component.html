@@ -1,0 +1,16 @@
+<div *ngIf="messageObj">
+
+  <mat-card class="mat-elevation-z0 successCard" *ngIf="messageObj.type ==='Success' && !userIsAuthenticated">
+    {{messageObj.message}}<button mat-raised-button [routerLink]="['/login']">Log In</button>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z0 successCard" *ngIf="userIsAuthenticated">
+    {{messageObj.message}}
+  </mat-card>
+
+
+  <mat-card class="mat-elevation-z0 failedCard" *ngIf="messageObj.type ==='Failed'">
+    {{messageObj.message}} <button mat-raised-button (click)="resendVerificationCode()">Resend</button>
+  </mat-card>
+
+</div>

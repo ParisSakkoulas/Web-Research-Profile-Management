@@ -1,0 +1,60 @@
+mat-card {
+  margin: 5%;
+}
+
+.fullBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.dashBoardHeader {
+  width: 80%;
+
+}
+
+.upperCards {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.middCards {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.upperCards mat-card,
+.middCards mat-card {
+  width: 20%;
+}
+
+
+mat-card:hover {
+  background-color: rgb(216, 239, 255);
+  cursor: pointer;
+}
+
+@media (max-width:755px) {
+
+  .upperCards,
+  .middCards {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+
+
+  .upperCards mat-card,
+  .middCards mat-card {
+    width: 80%;
+
+  }
+
+}

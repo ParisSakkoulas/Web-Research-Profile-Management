@@ -1,0 +1,73 @@
+<div class="usersFullBody">
+
+
+
+  <mat-card class="mat-elevation-z8 filter">
+    <mat-form-field>
+      <mat-label>Search User</mat-label>
+      <input matInput type="text" [(ngModel)]="filterValue" (input)="applyFilterNew()">
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z8 status">
+    <mat-form-field>
+      <mat-label>User Status</mat-label>
+      <mat-select multiple [(ngModel)]="selectedStatusOptions" (ngModelChange)="applyFilterNew()">
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="Inactive">Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card>
+
+
+  <mat-card class="mat-elevation-z4 user" *ngFor="let user of displayedUsers">
+    <mat-card-header>
+      <mat-card-title>{{user.user_id}} {{user.firstName}} {{user.lastName}}<button *ngIf="user.userRole !=='Admin'"
+          mat-icon-button [matMenuTriggerFor]="userSettingMenu">
+          <mat-icon><span class="material-symbols-outlined">
+              more_vert
+            </span></mat-icon>
+        </button></mat-card-title>
+      <mat-card-subtitle>{{user.email}} ({{user.userName}})</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngIf="user.userStatus ==='Active'">Status : {{user.userStatus}} <span
+            class="material-symbols-outlined" style="color: green;">
+            verified
+          </span></mat-list-item>
+
+        <mat-list-item *ngIf="user.userStatus ==='Inactive'">Status : {{user.userStatus}} <span
+            class="material-symbols-outlined" style="color: red;">
+            do_not_disturb_on
+          </span></mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+    <mat-menu #userSettingMenu="matMenu">
+      <button mat-menu-item (click)="verifyUser(user.user_id)" *ngIf="user.userStatus==='Inactive'">
+        <mat-icon><span class="material-symbols-outlined">
+            how_to_reg
+          </span></mat-icon>
+        <span>Activate</span>
+      </button>
+      <button mat-menu-item (click)="inactivateUser(user.user_id)" *ngIf="user.userStatus==='Active'">
+        <mat-icon><span class="material-symbols-outlined">
+            do_not_disturb_on
+          </span></mat-icon>
+        <span>Inactivate</span>
+      </button>
+      <button mat-menu-item [routerLink]="'/admin/user/' + user.user_id">
+        <mat-icon><span class="material-symbols-outlined">
+            manage_accounts
+          </span></mat-icon>
+        <span>Settings</span>
+      </button>
+    </mat-menu>
+  </mat-card>
+
+  <mat-paginator [length]="totalUsers" [pageSize]="pageSizeUsers" [pageSizeOptions]="pageSizeOptionsUsers"
+    [pageIndex]="currentPageUsers" (page)="onPageChange($event)">
+  </mat-paginator>
+
+</div>

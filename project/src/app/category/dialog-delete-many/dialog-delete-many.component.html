@@ -1,0 +1,27 @@
+<div class="messageForDeletionHeader" *ngIf="categories">
+
+  <p mat-dialog-title>Delete Categories?</p>
+  <p>Are you sure you want to delete <b *ngFor="let categoryName of categoriesNames"> "{{categoryName}}", </b> ?</p>
+  <p>You can undo this action.</p>
+
+</div>
+
+<div class="messageForDeletionBody">
+  <h2><span class="material-symbols-outlined">
+      warning
+    </span>Warning</h2>
+  <p mat-dialog-content>
+    Deleting the category will move all
+    associated items to Uncategorized list. Please confirm your decision by clicking <b>'Delete'</b> or cancel by
+    clicking
+    <b>'Cancel'</b>
+  </p>
+
+</div>
+
+
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+  <button class="mat-raised-button mat-warn" (click)="delete()">Delete</button>
+</mat-dialog-actions>

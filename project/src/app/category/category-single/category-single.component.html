@@ -1,0 +1,148 @@
+<div class="fullBody" *ngIf="category">
+
+  <mat-card class="fullBodyCard mat-elevation-z0">
+
+    <div class="headerCardClass">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title>{{category.name}}<button mat-icon-button
+              matTooltip="Explore all publications within this category. Utilize the action button to transfer publications to a different category or delete them from the current one (excluding the 'All' category). Additionally, on the right, you can perform batch actions on multiple publications effortlessly using the provided buttons."
+              matTooltipClass="custom-tooltip-class">
+              <mat-icon><span class="material-symbols-outlined">
+                  help
+                </span></mat-icon>
+            </button></mat-card-title>
+          <mat-card-subtitle *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</mat-card-subtitle>
+          <mat-card-subtitle>{{numberOfPublications}} Publications</mat-card-subtitle>
+
+          <div class="buttons">
+
+            <button mat-icon-button [matMenuTriggerFor]="menuForSingleCategory">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+
+            <mat-menu #menuForSingleCategory="matMenu">
+
+              <button mat-menu-item [routerLink]="['/categories']">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View All Categories</span>
+              </button>
+              <button mat-menu-item (click)="openDialogExportManyPublicationsCategory()">
+                <mat-icon><span class="material-symbols-outlined">
+                    download
+                  </span></mat-icon>
+                <span>Export Publications</span>
+              </button>
+              <button mat-menu-item (click)="openDialogDeletePublicationsCategory()">
+                <mat-icon><span class="material-symbols-outlined">
+                    delete
+                  </span></mat-icon>
+                <span>Delete Publications</span>
+              </button>
+            </mat-menu>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+
+    <div class="bodyCardClass">
+      <mat-card class="mat-elevation-z8">
+
+
+
+        <div mat-subheader *ngIf="numberOfPublications ===0">No Publications</div>
+        <div mat-subheader *ngIf="numberOfPublications >0">Publications</div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element let i = index" class="custom-position-class"> {{i + 1}}</td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef id="title"> Title </th>
+            <td mat-cell *matCellDef="let element" class="custom-title-class"><span class="trim"
+                matTooltip="{{element.title}}" matTooltipClass="tooltip-title">{{element.title |
+                truncate:[40]}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="section">
+            <th mat-header-cell *matHeaderCellDef> Section </th>
+            <td mat-cell *matCellDef="let element" class="custom-section-class"> {{element.section}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element"> <button mat-icon-button [matMenuTriggerFor]="menu"
+                aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/singlePublication/'+element.publication_id]">
+                  <mat-icon><span class="material-symbols-outlined">
+                      visibility
+                    </span></mat-icon>
+                  <span>View</span>
+                </button>
+                <button mat-menu-item *ngIf="category.name!=='All'"
+                  (click)="openDialogForRemovePublicationFromCategory(element.publication_id,element.title)">
+                  <mat-icon><span class="material-symbols-outlined">
+                      bookmark_remove
+                    </span></mat-icon>
+                  <span>Remove from Category</span>
+                </button>
+
+                <button mat-menu-item *ngIf="category.name!=='All'"
+                  (click)="openDialogForMovePublicationToAnotherCategory(element.publication_id,element.title)">
+                  <mat-icon><span class="material-symbols-outlined">
+                      bookmark_add
+                    </span></mat-icon>
+                  <span>Move to another</span>
+                </button>
+
+                <button mat-menu-item (click)="openDialogInfoPublication(element.publication_id)">
+                  <mat-icon><span class="material-symbols-outlined">
+                      info
+                    </span></mat-icon>
+                  <span>Publication Info</span>
+                </button>
+              </mat-menu>
+
+
+            </td>
+
+
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[3, 5, 13]" [length]="numberOfPublications" [pageSize]="5"></mat-paginator>
+
+
+
+
+
+
+
+
+      </mat-card>
+    </div>
+  </mat-card>
+
+
+
+</div>

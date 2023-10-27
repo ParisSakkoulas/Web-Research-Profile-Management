@@ -1,0 +1,45 @@
+<div class="fullBody">
+
+  <div class="dashBoardHeader">
+    <mat-card class="mat-elevation-z4 welcomeCard">
+      <h1>Welcome back, </h1>
+    </mat-card>
+  </div>
+
+
+  <div class="upperCards">
+    <mat-card class="mat-elevation-z4 usersCard" [routerLink]="'/admin/users'">
+      <mat-card-header>
+        <mat-card-title>Users</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+
+    <mat-card class="mat-elevation-z4 publicationsCard" [routerLink]="'/admin/publications'">
+      <mat-card-header>
+        <mat-card-title>Publications</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+
+    <mat-card class="mat-elevation-z4 requestsCard" [routerLink]="'/admin/requests'">
+      <mat-card-header>
+        <mat-card-title>Requests</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <div class="middCards">
+    <mat-card class="mat-elevation-z4 notificationsCard" [routerLink]="'/admin/notifications'">
+      <mat-card-header>
+        <mat-card-title>Notifications</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z4 adminLogsCard" [routerLink]="'/admin/logs'">
+      <mat-card-header>
+        <mat-card-title>Admin Logs</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>

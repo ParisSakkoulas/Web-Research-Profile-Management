@@ -1,0 +1,85 @@
+<div class="formClass" *ngIf="!isLoading">
+  <div>
+    <div class="spacer"></div>
+
+    <h2 align="center">Create Account <button mat-icon-button
+        matTooltip="Please complete the form below and click 'Sign Up.' Afterward, you will receive a confirmation link sent to your email."
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></h2>
+
+
+
+
+    <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+
+      <div class="FLname">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput required formControlName="firstName">
+          <mat-error *ngIf="signUpForm.controls['firstName'].invalid">You must enter you first name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput required formControlName="lastName">
+          <mat-error *ngIf="signUpForm.controls['lastName'].invalid">You must enter you last name</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput required formControlName="email">
+        <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">Email required for sign up</mat-error>
+        <mat-error *ngIf="signUpForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
+        <mat-error *ngIf="signUpForm.get('email')?.hasError('emailTaken')">Email already in use</mat-error>
+
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input matInput required formControlName="userName">
+        <mat-error *ngIf="signUpForm.get('userName')?.hasError('required')">User name required</mat-error>
+        <mat-error *ngIf="signUpForm.get('userName')?.hasError('pattern')">User Name should start with '_' and be 3
+          characters long (ex. _user123)</mat-error>
+        <mat-error *ngIf="signUpForm.get('userName')?.hasError('usernameTaken')">User name already in use</mat-error>
+
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" required formControlName="password"
+          type="password"><mat-icon (click)="togglePasswordVisibility()" matSuffix>
+          {{showPassword?'visibility_off':'visibility'}}</mat-icon>
+        <mat-error *ngIf="signUpForm.controls['password'].invalid">Password must contain at least 8 characters, 1
+          uppercase, 1
+          number and 1 special character</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput required formControlName="confirmPassword" [type]="showPassword ? 'text' : 'password'"><mat-icon
+          (click)="togglePasswordVisibility()" matSuffix>
+          {{showPassword?'visibility_off':'visibility'}}</mat-icon>
+        <mat-error *ngIf="signUpForm.controls['confirmPassword'].invalid">It should be same as the above</mat-error>
+      </mat-form-field>
+
+
+      <div class="actionButtons">
+        <button mat-flat-button color="primary" type="submit" class="saveButton">Sign Up</button>
+
+      </div>
+
+      <p>Already have an account? <a [routerLink]="['/login']" align="center">Log in</a></p>
+
+    </form>
+
+    <div class="spacer"></div>
+
+
+  </div>
+</div>

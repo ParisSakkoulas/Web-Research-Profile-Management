@@ -1,0 +1,36 @@
+<div class="messageForMove">
+
+  <p mat-dialog-title>Move Publication To Category?</p>
+  <p>Are you sure you want to add <b> "{{publicationName}}"</b> to a Category?</p>
+
+  <div class="currentCategories">Current Categories : <div *ngFor="let category of currentCategories; let last = last">
+      <b> {{category.name}}
+      </b>
+      <ng-container *ngIf="!last">,</ng-container>
+    </div>
+
+  </div>
+
+  <mat-selection-list #list [multiple]="false">
+    <mat-list-option *ngFor="let category of categories" [value]="category" (click)="toogleMessage()">
+      {{category.name}}
+    </mat-list-option>
+  </mat-selection-list>
+  <p>
+    You selected: <b>{{list.selectedOptions.hasValue() ? list.selectedOptions.selected[0].value.name : "None"}}</b>
+  </p>
+  <p><b>
+      When you move publications to the 'Uncategorized' category, they will be removed from all other categories
+    </b></p>
+
+</div>
+
+<div class="messageForChooseCategory" *ngIf="displayMessage">
+  <p>Please choose Category</p>
+</div>
+
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close>Cancel</button>
+  <button class="mat-raised-button mat-primary" (click)="add()">Add</button>
+</mat-dialog-actions>

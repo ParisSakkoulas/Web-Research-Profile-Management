@@ -1,0 +1,36 @@
+<div class="fullBodyNotifications">
+
+  <mat-card class="mat-elevation-z4">
+    <h1>Notifications</h1>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z4" *ngFor="let notification of displayedNotifications">
+    <mat-card-header>
+      <mat-card-title>
+        {{notification.title}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{notification.createdAt | date}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Creator : {{notification.creator.firstName}} {{notification.creator.lastName}}
+        ({{notification.creator.userName}})
+      </mat-card-subtitle>
+
+      <mat-card-subtitle>
+        Notify : {{notification.user.firstName}} {{notification.user.lastName}}
+        ({{notification.user.userName}})
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+
+    </mat-card-content>
+  </mat-card>
+  <mat-paginator [length]="totalNotification" [pageSize]="pageSizeNotification"
+    [pageSizeOptions]="pageSizeOptionsNotification" [pageIndex]="currentPageNotification"
+    (page)="onPageChangeNotification($event)">
+  </mat-paginator>
+
+</div>

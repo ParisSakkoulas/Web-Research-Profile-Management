@@ -1,0 +1,29 @@
+<div class="fullBody">
+
+  <form [formGroup]="createDialogForm" (ngSubmit)="onAddNewCategory()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="createDialogForm.controls['name'].invalid">Please enter a category name.</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descritpion</mat-label>
+      <textarea rows="8" cols="80" matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <div class="action_class">
+
+      <button mat-flat-button type="button" (click)="close()">Close</button>
+      <button mat-flat-button color="primary" type="submit" class="searchButton">{{buttonType}}</button>
+    </div>
+
+  </form>
+
+
+  <div class="spinner_class">
+    <mat-spinner *ngIf="categoryCreating"></mat-spinner>
+  </div>
+
+
+</div>

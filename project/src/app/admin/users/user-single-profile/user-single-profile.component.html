@@ -1,0 +1,102 @@
+<div class="fullBody">
+
+  <mat-card class="mat-elevation-z4 profileHeader" *ngIf="user">
+    <h1>Profile Settings ({{user.firstName}} {{user.lastName}})</h1>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z4 buttonsOption">
+    <button mat-button [color]="getButtonColor('info')" (click)="showDiv('info')">User Info</button>
+    <button mat-button [color]="getButtonColor('email')" (click)="showDiv('email')">Email</button>
+    <button mat-button [color]="getButtonColor('account')" (click)="showDiv('account')">Account</button>
+  </mat-card>
+
+
+  <mat-card class="mat-elevation-z4 info" *ngIf="selectedDiv==='info'">
+    <mat-card-header>
+      <mat-card-title>
+        User Info<button mat-icon-button class="buttonInfo"
+          matTooltip="Edit the section your want to change and then press Save Button"
+          matTooltipClass="custom-tooltip-class">
+          <mat-icon><span class="material-symbols-outlined">
+              help
+            </span></mat-icon>
+        </button>
+
+
+      </mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="changeUserInfoForm" (ngSubmit)="onChangeUserInfo()">
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName">
+        <mat-error *ngIf="changeUserInfoForm.get('firstName')?.hasError('required')">Enter first name</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName">
+        <mat-error *ngIf="changeUserInfoForm.get('lastName')?.hasError('required')">Enter first name</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>User Name</mat-label>
+        <input matInput formControlName="userName">
+        <mat-error *ngIf="changeUserInfoForm.get('userName')?.hasError('required')">Enter user name</mat-error>
+        <mat-error *ngIf="changeUserInfoForm.get('userName')?.hasError('usernameTaken')">User name already in
+          use</mat-error>
+        <mat-error *ngIf="changeUserInfoForm.get('userName')?.hasError('pattern')">User name mast start with '_' ex.
+          _user123.</mat-error>
+
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Save</button>
+      </mat-card-actions>
+    </form>
+
+  </mat-card>
+
+
+
+
+  <mat-card class="mat-elevation-z4 email" *ngIf="selectedDiv==='email'">
+
+    <mat-card-header>
+      <mat-card-title align="midle">Change Email<button mat-icon-button
+          matTooltip="After changing your email, we will send a verification link to the new email address. Please use the link to verify your email."
+          matTooltipClass="custom-tooltip-class">
+          <mat-icon><span class="material-symbols-outlined">
+              help
+            </span></mat-icon>
+        </button></mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="changeEmailForm" (ngSubmit)="onChangeEmail()">
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('required')">Email required for sign up</mat-error>
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('emailTaken')">Email already in use</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="saveButton">Save</button>
+    </form>
+
+  </mat-card>
+
+  <mat-card class="mat-elevation-z4 account" *ngIf="selectedDiv==='account'">
+    <mat-card-header>
+      <mat-card-title align="midle">Delete User<button mat-icon-button
+          matTooltip="Press Delete button to delete user.After deleting the Account all user's information will be lost."
+          matTooltipClass="custom-tooltip-class">
+          <mat-icon><span class="material-symbols-outlined">
+              help
+            </span></mat-icon>
+        </button></mat-card-title>
+    </mat-card-header>
+    <button mat-raised-button color="warn" (click)="openDialogForDeleteAccount()">Delete Account</button>
+  </mat-card>
+
+
+</div>

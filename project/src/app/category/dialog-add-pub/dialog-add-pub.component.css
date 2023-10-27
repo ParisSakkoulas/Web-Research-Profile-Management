@@ -1,0 +1,26 @@
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.messageForChooseCategory {
+  color: red;
+}
+
+
+
+.currentCategories {
+  display: flex;
+}
+
+
+@media (max-width:500px) {
+
+  .currentCategories {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
