@@ -1,0 +1,498 @@
+<div class="fullBodySearchUsers">
+
+  <div class="simpleCardClass" *ngIf="searchTypeSelection === 'Simple'">
+
+    <form [formGroup]="simpleUserSearchForm" (ngSubmit)="onUserSimpleSearch()">
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput formControlName="searchTerm" placeholder="Search user . . . . "
+          (keyup)="sendDataSimpleSearch($event)" [matAutocomplete]="autoSimpleSearch">
+        <mat-autocomplete autoActiveFirstOption #autoSimpleSearch="matAutocomplete">
+
+          <mat-option *ngIf="internalUsersSearchLoading">
+            <div class="ref_is_loading">
+              <mat-spinner diameter="50"></mat-spinner>
+            </div>
+          </mat-option>
+
+          <div>
+
+            <mat-optgroup label="First and Last Name based">
+              <mat-option *ngFor="let option of filtereFirstNlastNameBasedSimpleOptions | async"
+                [value]="option.firstName" (click)="viewProfile(option.user_id)">
+                {{option.firstName}} {{option.lastName}} ({{option.userName}})
+              </mat-option>
+            </mat-optgroup>
+
+
+            <mat-optgroup label="User Name based">
+              <mat-option *ngFor="let option of filtereusersUserNameBasedSimpleOptions | async"
+                [value]="option.firstName" (click)="viewProfile(option.user_id)">
+                {{option.firstName}} {{option.lastName}} ({{option.userName}})
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Organization based">
+              <mat-option *ngFor="let option of filtereusersOrganizationsBasedSimpleOption | async"
+                [value]="option.firstName" (click)="viewProfile(option.user_id)">
+                {{option.firstName}} {{option.lastName}} ({{option.userName}})
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Studies based">
+              <mat-option *ngFor="let option of filtereusersStudiesBasedSimpleOptions | async"
+                [value]="option.firstName" (click)="viewProfile(option.user_id)">
+                {{option.firstName}} {{option.lastName}} ({{option.userName}})
+              </mat-option>
+            </mat-optgroup>
+
+            <mat-optgroup label="Interests based">
+              <mat-option *ngFor="let option of filtereusersResearchInterestsBasedSimpleOptions | async"
+                [value]="option.firstName" (click)="viewProfile(option.user_id)">
+                {{option.firstName}} {{option.lastName}} ({{option.userName}})
+              </mat-option>
+            </mat-optgroup>
+
+          </div>
+        </mat-autocomplete>
+
+
+      </mat-form-field>
+
+    </form>
+
+  </div>
+
+  <div class="sophisticatedCardClass" *ngIf="searchTypeSelection === 'Sophisticated'">
+    <h3 align="middle">Sophisticated Search Form</h3>
+
+    <form (ngSubmit)="onShopisticatedSearch()" #sophisticatedForm="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input matInput [(ngModel)]="userName" name="userName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput [(ngModel)]="firstName" name="firstName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput [(ngModel)]="lastName" name="lastName">
+      </mat-form-field>
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Studies</mat-label>
+        <mat-chip-list #chipStudyGrid aria-label="Enter keywords" [(ngModel)]="studies" name="studies">
+          <mat-chip *ngFor="let study of studies" (removed)="removeStudy(study)">
+            {{study}}
+            <button matChipRemove aria-label="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <input placeholder="New interest..." [matChipInputFor]="chipStudyGrid"
+          (matChipInputTokenEnd)="addStudy($event)" />
+      </mat-form-field>
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Interests</mat-label>
+        <mat-chip-list #chipInterestGrid aria-label="Enter keywords" [(ngModel)]="interests" name="interests">
+          <mat-chip *ngFor="let interest of interests" (removed)="removeInterest(interest)">
+            {{interest}}
+            <button matChipRemove aria-label="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <input placeholder="New interest..." [matChipInputFor]="chipInterestGrid"
+          (matChipInputTokenEnd)="addInterest($event)" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Organization</mat-label>
+        <input matInput [(ngModel)]="organization" name="organization">
+      </mat-form-field>
+
+
+      <div class="buttons">
+        <button mat-stroked-button color="warn">Clear</button>
+        <button mat-stroked-button color="primary">Search</button>
+
+
+      </div>
+    </form>
+
+  </div>
+
+  <div class="settingsResultCardClass">
+
+    <mat-card class="settingsCardClass mat-elevation-z8">
+
+      <mat-card class="searchTypeSettings mat-elevation-z0">
+        <h3>Search Type <button mat-icon-button class="buttonIcon"
+            matTooltip="At this point, you have the option to choose between a Simple or Advanced search.For advanced searches, ensure you've populated the necessary fields before initiating the search."
+            matTooltipClass="custom-tooltip-class">
+            <span class="material-symbols-outlined">
+              help
+            </span>
+          </button></h3>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+          [(ngModel)]="searchTypeSelection">
+          <mat-radio-button class="example-radio-button" *ngFor="let type of searchTypes" [value]="type">
+            {{type}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
+
+    </mat-card>
+
+    <div class="resultCardClass" *ngIf="searchTypeSelection === 'Simple'">
+      <h3 *ngIf="(filtereFirstNlastNameBasedSimpleOptions | async)?.length">First and Last Name Based<button
+          mat-icon-button class="buttonIcon" matTooltip="Results are generated based on users' first and last names."
+          matTooltipClass="custom-tooltip-class">
+          <span class="material-symbols-outlined">
+            help
+          </span>
+        </button></h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of currentPageDataUserFirstAndLastNameBased">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span><button mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+              [matMenuTriggerFor]="singlUserSettingMenu">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions *ngIf="userIsAuthenticated && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary" (click)="followUser(user.user_id)">
+            {{ user.following ? 'Unfollow' : 'Follow' }}<span class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filtereusersUserNameBasedSimpleOptions | async)?.length">User Name Based</h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of currentPageDataUserNameBased">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span> <button
+              mat-icon-button [matMenuTriggerFor]="singlUserSettingMenu2">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu2="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-actions *ngIf="userIsAuthenticated  && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary"
+            (click)="followUser(user.user_id)">{{ user.following ? 'Unfollow' : 'Follow' }}<span
+              class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+
+      <h3 *ngIf="(filtereusersResearchInterestsBasedSimpleOptions | async)?.length">Research Interests Based<button
+          mat-icon-button class="buttonIcon" matTooltip="Results are generated based on users' research interests."
+          matTooltipClass="custom-tooltip-class">
+          <span class="material-symbols-outlined">
+            help
+          </span>
+        </button></h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of currentPageDataResearcInterestBased">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span> <button
+              mat-icon-button [matMenuTriggerFor]="singlUserSettingMenu2">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu2="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div>
+          <mat-chip-list>
+            <mat-chip *ngFor="let interest of user.interests" color="accent">
+              {{interest.keyword}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <mat-card-actions *ngIf="userIsAuthenticated && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary"
+            (click)="followUser(user.user_id)">{{ user.following ? 'Unfollow' : 'Follow' }}<span
+              class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filtereusersStudiesBasedSimpleOptions | async)?.length">Studies Based<button mat-icon-button
+          class="buttonIcon" matTooltip="Results are generated based on users' studies."
+          matTooltipClass="custom-tooltip-class">
+          <span class="material-symbols-outlined">
+            help
+          </span>
+        </button></h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of currentPageDataStudiesBased">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span> <button
+              mat-icon-button [matMenuTriggerFor]="singlUserSettingMenu2">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu2="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+          <mat-card-subtitle *ngFor="let study of user.studies">
+
+
+            <span class="material-symbols-outlined">
+              school
+            </span>
+            {{study.title}}, {{study.school}} ({{study.endYear}})
+
+          </mat-card-subtitle>
+        </mat-card-header>
+
+
+        <mat-card-actions *ngIf="userIsAuthenticated && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary"
+            (click)="followUser(user.user_id)">{{ user.following ? 'Unfollow' : 'Follow' }}<span
+              class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+      <h3 *ngIf="(filtereusersOrganizationsBasedSimpleOption | async)?.length">Organization Based<button mat-icon-button
+          class="buttonIcon" matTooltip="Results are generated based on users' organizations."
+          matTooltipClass="custom-tooltip-class">
+          <span class="material-symbols-outlined">
+            help
+          </span>
+        </button></h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of currentPageDataOrganizationsBased">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span> <button
+              mat-icon-button [matMenuTriggerFor]="singlUserSettingMenu2">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu2="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+          <mat-card-subtitle *ngFor="let organization of user.organizations">
+
+
+            <span class="material-symbols-outlined">
+              apartment
+            </span>
+            {{organization.name}}
+
+          </mat-card-subtitle>
+        </mat-card-header>
+
+
+        <mat-card-actions *ngIf="userIsAuthenticated && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary"
+            (click)="followUser(user.user_id)">{{ user.following ? 'Unfollow' : 'Follow' }}<span
+              class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+
+    <div class="resultCardClass" *ngIf="searchTypeSelection === 'Sophisticated'" #resultCard>
+      <h3 *ngIf="(filteredShophisticatedResult | async)?.length">Sophisticated Results<button mat-icon-button
+          class="buttonIcon" matTooltip="Results are generated based on the fields you initialize."
+          matTooltipClass="custom-tooltip-class">
+          <span class="material-symbols-outlined">
+            help
+          </span>
+        </button></h3>
+      <mat-card class="titleBasedResult mat-elevation-z3" *ngFor="let user of displayedResults">
+        <mat-card-header>
+          <mat-card-title>
+            <span (click)="viewProfile(user.user_id)">{{user.firstName}} {{user.lastName}}</span><button mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+              [matMenuTriggerFor]="singlUserSettingMenu">
+              <mat-icon><span class="material-symbols-outlined">
+                  more_vert
+                </span></mat-icon>
+            </button>
+            <mat-menu #singlUserSettingMenu="matMenu">
+              <button mat-menu-item (click)="viewProfile(user.user_id)">
+                <mat-icon><span class="material-symbols-outlined">
+                    visibility
+                  </span></mat-icon>
+                <span>View</span>
+              </button>
+
+            </mat-menu>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              person
+            </span> {{user.userName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <span class="material-symbols-outlined">
+              mail
+            </span> {{user.email}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions *ngIf="userIsAuthenticated && currentUser.userRole !=='Admin'">
+          <button mat-raised-button *ngIf="userId !== user.user_id" color="primary"
+            (click)="followUser(user.user_id)">{{ user.following ? 'Unfollow' : 'Follow' }}<span
+              class="material-symbols-outlined">
+              {{ user.following ? 'remove' : 'add' }}
+            </span></button>
+          <button *ngIf="userId !== user.user_id" mat-stroked-button color="primary">Endorse<span
+              class="material-symbols-outlined">
+              verified
+            </span></button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+
+  </div>
+
+  <div class="paginatorCardClass" *ngIf="searchTypeSelection === 'Simple'">
+    <mat-paginator [length]="totalUsers" [pageSize]="pageSizeSimple" [pageIndex]="currentPageSimple"
+      [pageSizeOptions]="pageSizeOptions" (page)="onPageChangeSimple($event)" aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <div class="paginatorCardClass" *ngIf="searchTypeSelection === 'Sophisticated'">
+    <mat-paginator [length]="totalPublications" [pageSize]="pageSize" [pageIndex]="currentPage"
+      [pageSizeOptions]="pageSizeOptionsShophisticated" (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+
+</div>

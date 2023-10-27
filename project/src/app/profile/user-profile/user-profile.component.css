@@ -1,0 +1,367 @@
+.bodyUserProfile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+}
+
+img:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.networkButtons {
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.headerProfile mat-card,
+.headerProfileActions mat-card,
+.bodyProfile mat-card,
+.footerProfile mat-card {
+  width: 80%;
+}
+
+mat-radio-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+
+.headerProfile {
+  width: 100%;
+  margin-top: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.headerProfile mat-card {
+  width: 70%;
+}
+
+.buttons {
+  width: 100%;
+  margin: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.buttons button {
+  margin: 2%
+}
+
+
+
+.headerProfile .infoPhotos {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.headerProfile .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+::ng-deep label.star {
+  padding: 0 5px !important;
+  font-size: 20px !important;
+  color: #86CBFC !important;
+
+  &:hover {
+    transform: rotate(0deg) scale(1.3) !important;
+
+  }
+
+
+}
+
+
+
+.headerProfile button {
+  width: 200px;
+}
+
+
+.headerProfile .buttons span {
+  vertical-align: middle;
+  margin-left: 7%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+
+}
+
+
+
+
+
+.headerProfileActions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.headerProfileActions mat-card {
+  width: 70%;
+  margin-top: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.bodyProfile {
+  width: 100%;
+  margin-top: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.bodyProfile mat-card {
+  width: 70%;
+  margin-bottom: 4%;
+
+}
+
+
+
+
+.userNotFound {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userNotFound mat-card {
+  margin: 5%;
+}
+
+.headerNotFound {
+  margin-top: 8%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.pofileButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filterPublicationProfileClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filterPublicationProfileClass mat-form-field {
+  width: 80%;
+}
+
+.publication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.publication a {
+  text-decoration: none;
+  color: black;
+
+}
+
+
+.cooperations mat-card-title:hover {
+  cursor: pointer;
+  color: rgb(0, 153, 255);
+}
+
+
+
+.jobs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.studiesDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.organizationDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cooperations {
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.followings,
+.followers,
+.endorsments {
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.endorsments {
+  width: 100%;
+}
+
+
+.followings button,
+.followers button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 40px;
+}
+
+@media (max-width : 937px) {
+
+
+
+  .headerProfile mat-card,
+  .headerProfileActions mat-card,
+  .bodyProfile mat-card,
+  .footerProfile mat-card {
+    width: 90%;
+  }
+
+
+  .networkButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+
+
+  .pofileButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+
+
+  .headerProfile button {
+    width: 200px;
+
+  }
+
+
+}
+
+@media (max-width : 737px) {
+
+  .headerProfile mat-card,
+  .headerProfileActions mat-card,
+  .bodyProfile mat-card,
+  .footerProfile mat-card {
+    width: 70%;
+  }
+
+
+  .headerProfile .infoPhotos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .buttons {
+    width: 100%;
+    margin: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .headerProfile .info2 {
+    width: 100%;
+  }
+
+  .headerProfile .info1 {
+    width: 100%;
+
+  }
+
+
+
+}
+
+
+@media (max-width:393px) {
+
+  .headerProfile mat-card,
+  .headerProfileActions mat-card,
+  .bodyProfile mat-card,
+  .footerProfile mat-card {
+    width: 85%;
+  }
+
+}
+
+@media (max-width : 327px) {
+
+  .headerProfile mat-card {
+    width: 80%;
+  }
+
+  .headerProfileActions mat-card {
+    width: 80%;
+  }
+
+  .bodyProfile mat-card {
+    width: 80%;
+
+  }
+
+  .networkButtons {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 8px;
+  }
+
+}

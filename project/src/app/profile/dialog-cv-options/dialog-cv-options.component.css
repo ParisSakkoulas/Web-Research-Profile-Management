@@ -1,0 +1,92 @@
+.headerBody {
+  width: 100%;
+  margin-top: 3%;
+}
+
+
+
+.pdfTypeDiv span,
+.docTypeDiv span {
+  transform: scale(2);
+  margin: 3%;
+}
+
+.helpClass span {
+  transform: scale(1.5);
+}
+
+.body {
+  margin: 3%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.pdfTypeDiv {
+  margin: 3%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.docTypeDiv {
+  margin: 3%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.docTypeDiv:hover,
+.pdfTypeDiv:hover {
+  cursor: pointer;
+}
+
+.docTypeDiv:hover {
+  background-color: #ceeaff;
+}
+
+
+.pdfTypeDiv:hover {
+  background-color: #ceeaff;
+}
+
+.actions {
+  margin-top: 3%;
+  width: 100%;
+  display: flex;
+}
+
+.actions button {
+  width: 100%;
+}
+
+
+@media (max-width : 627px) {
+
+  .docTypeDiv h1,
+  .pdfTypeDiv h1 {
+    font-size: small;
+  }
+
+}
+
+
+@media (max-width : 373px) {
+
+  .body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .headerBody h1 {
+    font-size: medium;
+  }
+
+}

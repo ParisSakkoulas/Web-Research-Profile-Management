@@ -1,0 +1,35 @@
+<p mat-dialog-title>Add Job</p>
+
+<form [formGroup]="setJob" (ngSubmit)="onSetJob()">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Company</mat-label>
+    <input matInput formControlName="company">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Starting Year</mat-label>
+    <mat-select formControlName="startYear" (ngModelChange)=" onStartingYearChange()" name="startYear">
+      <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-label>Ending Year</mat-label>
+    <mat-select formControlName="endYear">
+      <mat-option *ngFor="let year of years" [value]="year" [disabled]="year < startYear">{{ year }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-dialog-actions>
+    <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+    <button class="mat-raised-button mat-primary" type="submit">{{ buttonText }}</button>
+  </mat-dialog-actions>
+</form>

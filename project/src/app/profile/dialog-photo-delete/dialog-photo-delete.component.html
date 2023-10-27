@@ -1,0 +1,13 @@
+<p mat-dialog-title>Remove Photo Profile</p>
+
+<div>
+
+  <p>Are you sure for deleting photo profile?</p>
+  <p>You can not undo this action</p>
+
+</div>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+  <button class="mat-raised-button mat-warn" type="button" (click)="deletePhotoProfile()">Delete</button>
+</mat-dialog-actions>

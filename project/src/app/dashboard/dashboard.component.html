@@ -1,0 +1,73 @@
+<div class="fullBody" *ngIf="publications">
+
+  <mat-card class="filterCard mat-elevation-z8">
+    <mat-form-field>
+      <mat-label>Search Publication</mat-label>
+      <input matInput type="text" [(ngModel)]="filterValue" (input)="applyFilterNew()">
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card class="filterCardSection mat-elevation-z8">
+    <mat-form-field>
+      <mat-label>Section</mat-label>
+      <mat-select [(ngModel)]="selectedSection" name="section">
+        <mat-option *ngFor="let section of sections" [value]="section" (click)="applyFilterNew()">
+          {{section}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>Access</mat-label>
+      <mat-select [(ngModel)]="selectedAccess" name="access">
+        <mat-option *ngFor="let a of access" [value]="a" (click)="applyFilterNew()">
+          {{a}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Enter Year</mat-label>
+      <input matInput [(ngModel)]="filterYearValue" (input)="applyFilterNew()">
+    </mat-form-field>
+
+  </mat-card>
+
+  <mat-card class="publicationsCard mat-elevation-z8" *ngFor="let publication of displayedPublications">
+
+    <mat-card class="publicationCard mat-elevation-z0">
+      <mat-card-header>
+
+        <mat-card-title [routerLink]="'/singlePublication/'+publication.publication_id">
+          {{publication.title}}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{publication.section}}
+        </mat-card-subtitle>
+
+
+
+        <mat-card-subtitle>
+          {{publication.user.firstName}} {{publication.user.lastName}} <span class="material-symbols-outlined">
+            person
+          </span>
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          {{publication.user.email}} <span class="material-symbols-outlined">
+            mail
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
+  </mat-card>
+
+
+  <mat-card class="paginatorClass mat-elevation-z8">
+    <mat-paginator [length]="totalPublications" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="currentPage" (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-card>
+
+</div>

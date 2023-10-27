@@ -1,0 +1,150 @@
+<div class="fullBodySettings">
+
+  <mat-card class="mat-elevation-z4">
+    <mat-card-header>
+      <mat-card-title>
+        Profile Settings
+      </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+
+
+
+  <mat-card class="mat-elevation-z4 settingsButtons">
+    <div>
+      <button mat-button [color]="getButtonColor('info')" (click)="showDiv('info')">General Info</button>
+      <button mat-button [color]="getButtonColor('email')" (click)="showDiv('email')">Email</button>
+      <button mat-button [color]="getButtonColor('password')" (click)="showDiv('password')">Password</button>
+      <button mat-button [color]="getButtonColor('account')" (click)="showDiv('account')">Account</button>
+    </div>
+  </mat-card>
+
+
+  <mat-card *ngIf="selectedDiv === 'info'" class="mat-elevation-z0 info">
+    <app-profile-edit></app-profile-edit>
+  </mat-card>
+
+
+  <mat-card *ngIf="selectedDiv === 'email'" class="mat-elevation-z4 email">
+
+    <mat-card-header>
+      <mat-card-title align="midle">Change Email<button mat-icon-button
+          matTooltip="After changing your email, we will send a verification link to the new email address. Please use the link to verify your email."
+          matTooltipClass="custom-tooltip-class">
+          <mat-icon><span class="material-symbols-outlined">
+              help
+            </span></mat-icon>
+        </button></mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="changeEmailForm" (ngSubmit)="onChangeEmail()">
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>New Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('required')">Email required for sign up</mat-error>
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
+        <mat-error *ngIf="changeEmailForm.get('email')?.hasError('emailTaken')">Email already in use</mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" class="saveButton">Change</button>
+    </form>
+
+  </mat-card>
+
+  <mat-card *ngIf="selectedDiv === 'password'" class="mat-elevation-z4 password">
+    <mat-card-title align="midle">Change Password<button mat-icon-button matTooltip="To update your password, please follow these steps:
+        1-Enter your current password.
+        2-Enter your new password.
+        3-Confirm your new password.
+        This ensures the security of your account and helps us keep your information safe."
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></mat-card-title>
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePassword()">
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>Old Password</mat-label>
+        <input matInput type="password" formControlName="oldPassword" [type]="showPassword ? 'text' : 'password'">
+        <mat-icon matSuffix (click)="togglePasswordVisibility()"><span class="material-symbols-outlined">
+            {{showPassword?'visibility_off':'visibility'}}
+          </span></mat-icon>
+        <mat-error *ngIf="changePasswordForm.get('oldPassword')?.hasError('required')">Old Password required</mat-error>
+
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" formControlName="newPassword" [type]="showPassword ? 'text' : 'password'">
+        <mat-icon matSuffix (click)="togglePasswordVisibility()"><span class="material-symbols-outlined">
+            {{showPassword?'visibility_off':'visibility'}}
+          </span></mat-icon>
+        <mat-error *ngIf="changePasswordForm.get('newPassword')?.hasError('required')">Add New Password</mat-error>
+        <mat-error *ngIf="changePasswordForm.get('newPassword')?.hasError('pattern')">Password must contain at least 8
+          characters, 1
+          uppercase, 1
+          number and 1 special character</mat-error>
+
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <mat-label>Validate New Password</mat-label>
+        <input matInput type="password" formControlName="validateNewPassword"
+          [type]="showPassword ? 'text' : 'password'">
+        <mat-icon matSuffix (click)="togglePasswordVisibility()"><span class="material-symbols-outlined">
+            {{showPassword?'visibility_off':'visibility'}}
+          </span></mat-icon>
+        <mat-error *ngIf="changePasswordForm.get('validateNewPassword')?.hasError('required')">Validate New
+          Password</mat-error>
+
+        <mat-error *ngIf="changePasswordForm.get('validateNewPassword')?.hasError('MustMatch')">It should be same with
+          the new Passwod</mat-error>
+
+      </mat-form-field>
+
+
+      <button mat-flat-button color="primary" type="submit" class="saveButton">Change</button>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card *ngIf="selectedDiv === 'account'" class="mat-elevation-z4 account">
+
+    <mat-card-title align="midle">Delete Account<button mat-icon-button matTooltip="To delete your account, please follow these steps:
+
+        1-Enter your password.
+        2-Wait for the system to validate your password.
+        3-Click the 'Delete Account' button.
+
+        This process ensures the security of your account and helps us confirm your intention to delete it."
+        matTooltipClass="custom-tooltip-class">
+        <mat-icon><span class="material-symbols-outlined">
+            help
+          </span></mat-icon>
+      </button></mat-card-title>
+
+    <form [formGroup]="passwordMatch">
+      <mat-form-field appearance="outline" hideRequiredMarker="true">
+        <input matInput type="password" formControlName="searchTerm" placeholder="Password"
+          [type]="showPassword ? 'text' : 'password'">
+        <mat-icon matSuffix (click)="togglePasswordVisibility()"><span class="material-symbols-outlined">
+            {{showPassword?'visibility_off':'visibility'}}
+          </span></mat-icon>
+        <mat-error *ngIf="passwordMatch.get('searchTerm')?.hasError('passwordNotSame')">Incorrect password!</mat-error>
+        <mat-error *ngIf="passwordMatch.get('searchTerm')?.hasError('required')">Password required to delete
+          your account</mat-error>
+        <mat-progress-bar mode="indeterminate" *ngIf="passwordChecking"></mat-progress-bar>
+
+      </mat-form-field>
+
+    </form>
+
+    <button mat-raised-button color="warn" [disabled]="passwordMatch.invalid"
+      (click)="openDialogForDeleteAccount()">Delete Account</button>
+
+
+  </mat-card>
+
+</div>

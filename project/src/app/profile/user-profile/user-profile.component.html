@@ -1,0 +1,518 @@
+<div class="bodyUserProfile" id="bodyUserProfileId" *ngIf="userData">
+
+
+  <div class="headerProfile" id="headerId">
+    <mat-card class="mat-elevation-z4">
+
+
+
+      <div class="infoPhotos" *ngIf="userData">
+
+        <div class="photo" matTooltip="{{userData.userName}}" matTooltipClass="custom-tooltip-class">
+          <img [src]="uploadedImageSrc">
+        </div>
+
+
+
+
+        <div class="info1" *ngIf="userData">
+          <mat-list role="list">
+            <mat-list-item role="listitem">{{userData.firstName}} {{userData.lastName}}</mat-list-item>
+            <mat-list-item role="listitem"> {{userData.userName}}</mat-list-item>
+            <mat-list-item role="listitem"> {{userData.email}}</mat-list-item>
+            <mat-list-item role="listitem" *ngIf="profileStats">Publications
+              {{profileStats.total_publications}}</mat-list-item>
+            <mat-list-item role="listitem">AVG Rating <ngx-star-rating [(ngModel)]="avgRating"
+                [disabled]="true"></ngx-star-rating></mat-list-item>
+
+            <mat-list-item role="listitem" *ngIf="userIsAuthenticated && currentUser.userRole!=='Admin' ">Your Rating
+              <ngx-star-rating [(ngModel)]="rating3" [id]="'rating3'"
+                (ngModelChange)="onRatingChange()"></ngx-star-rating></mat-list-item>
+
+
+          </mat-list>
+        </div>
+
+
+        <div class="info2" *ngIf="profileStats">
+          <mat-list role="list">
+            <mat-list-item role="listitem">Followers {{profileStats.followers}}</mat-list-item>
+            <mat-list-item role="listitem">Following {{profileStats.following}}</mat-list-item>
+
+            <mat-list-item role="listitem">h-index {{profileStats.hIndex}}</mat-list-item>
+            <mat-list-item role="listitem">i-10 index {{profileStats.i_10index}}</mat-list-item>
+
+            <mat-list-item role="listitem">Citation {{profileStats.num_of_citations}}</mat-list-item>
+
+          </mat-list>
+
+        </div>
+      </div>
+
+      <div class="actions" *ngIf="userIsAuthenticated && currentUser.userRole!=='Admin' ">
+
+
+        <div class="buttons">
+
+          <button mat-raised-button color="primary" (click)="followUser()">
+            {{ !profileFollowing ? 'Follow' : 'Unfollow' }}
+            <span class="material-symbols-outlined">
+              {{ !profileFollowing ? 'person_add' : 'person_remove' }}
+            </span>
+          </button>
+          <button mat-stroked-button color="primary" (click)="endorseUser()"
+            matTooltip="You can make an endorsement about this user."
+            matTooltipClass="custom-tooltip-class">Endorse<span class="material-symbols-outlined">
+              verified
+            </span></button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="headerProfileActions">
+    <mat-card class="mat-elevation-z4">
+      <div class="pofileButtons">
+        <button mat-button [color]="getButtonColor('info')" (click)="showDiv('info')">Info</button>
+        <button mat-button [color]="getButtonColor('abilities')" (click)="showDiv('abilities')">Abilities</button>
+
+        <button mat-button [color]="getButtonColor('interests')" (click)="showDiv('interests')">Interests</button>
+
+        <button mat-button [color]="getButtonColor('publications')"
+          (click)="showDiv('publications')">Publications</button>
+        <button mat-button [color]="getButtonColor('stats')" (click)="showDiv('stats')">Stats</button>
+        <button mat-button [color]="getButtonColor('jobs')" (click)="showDiv('jobs')">Jobs</button>
+        <button mat-button [color]="getButtonColor('studies')" (click)="showDiv('studies')">Studies</button>
+        <button mat-button [color]="getButtonColor('organizations')"
+          (click)="showDiv('organizations')">Organizations</button>
+
+
+        <button mat-button [color]="getButtonColor('network')" (click)="showDiv('network')">Network</button>
+        <button mat-button [color]="getButtonColor('endorsments')" (click)="showDiv('endorsments')">Endorsments</button>
+
+
+      </div>
+
+    </mat-card>
+
+  </div>
+
+
+  <div class="bodyProfile">
+
+
+    <mat-card class="info mat-elevation-z4" *ngIf="selectedDiv === 'info'">
+      <mat-card-header>
+        <mat-card-title>Info</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list *ngIf="userData">
+          <mat-list-item>User Name : {{userData.userName}}</mat-list-item>
+          <mat-list-item>First Name : {{userData.firstName}}</mat-list-item>
+          <mat-list-item>Last Name : {{userData.lastName}}</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class="publications mat-elevation-z4" *ngIf="selectedDiv === 'publications'">
+
+      <mat-card-content>
+
+        <div class="filterPublicationProfileClass">
+
+          <mat-form-field>
+            <mat-label>Search Publication</mat-label>
+            <input matInput type="text" [(ngModel)]="filterValue" (input)="applyFilterNew()">
+          </mat-form-field>
+        </div>
+
+        <div class="publication">
+
+
+          <mat-card class="mat-elevation-z0" *ngFor="let publication of displayedPublications">
+            <mat-card-header>
+              <mat-card-title><a
+                  [routerLink]="'/singlePublication/'+publication.publication_id">{{publication.title}}</a></mat-card-title>
+              <mat-card-subtitle>
+                <div>
+                  {{publication.section}}
+                  <span *ngIf="publication.year">({{publication.year}})</span>
+                </div>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              {{publication.abstract}}
+            </mat-card-content>
+            <mat-divider></mat-divider>
+          </mat-card>
+        </div>
+        <mat-paginator [length]="myTotalPublications" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="currentPage" (page)="onPageChange($event)">
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class="stats mat-elevation-z4" *ngIf="selectedDiv === 'stats'">
+      <mat-card-header>
+        <mat-card-title>Stats</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+
+        <div class="publicationPerYearStats" style="width: 100%; height: 300px">
+
+
+          <canvas *ngIf="selectedDivStat === 'publicationsPerYearStats'" baseChart [data]="barChartDataToSet"
+            [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+
+          <canvas *ngIf="selectedDivStat === 'citationsPerYear'" baseChart [data]="barChartDataToSetCitation"
+            [labels]="barChartLabelsCitation" [options]="barChartOptionsCitation"
+            [legend]="barChartLegendCitation"></canvas>
+
+
+        </div>
+
+
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button [color]="getButtonColorStat('publicationsPerYearStats')"
+          (click)="showDivStat('publicationsPerYearStats')">Publications Per Year</button><button mat-button
+          [color]="getButtonColorStat('citationsPerYear')" (click)="showDivStat('citationsPerYear')">Citation Per
+          Year</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="jobsCard mat-elevation-z4" *ngIf="selectedDiv === 'jobs'">
+      <mat-card-header>
+        <mat-card-title>Jobs</mat-card-title>
+      </mat-card-header>
+      <div class="jobs">
+
+
+        <mat-card *ngFor="let job of displayedJobs" class="singleJobCard mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-title>{{job.title}}</mat-card-title>
+            <mat-card-subtitle>{{job.company}} ( {{job.startYear}} - {{job.endYear}} )</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+
+        </mat-card>
+      </div>
+
+      <mat-card-actions>
+        <mat-paginator [length]="totalJobs" [pageSize]="pageSizeJob" [pageSizeOptions]="pageSizeOptionsJob"
+          [pageIndex]="currentPageJob" (page)="onPageChangeJob($event)">
+        </mat-paginator>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="studies mat-elevation-z4" *ngIf="selectedDiv === 'studies'">
+      <mat-card-header>
+        <mat-card-title>Studies</mat-card-title>
+      </mat-card-header>
+      <div class="studiesDiv">
+
+
+        <mat-card *ngFor="let study of displayedStudies" class="mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-title>{{study.title}}</mat-card-title>
+            <mat-card-subtitle>{{study.school}} ( {{study.endYear}} )</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+        </mat-card>
+      </div>
+      <mat-card-actions>
+        <mat-paginator [length]="totalStudies" [pageSize]="pageSizeStudy" [pageSizeOptions]="pageSizeOptionsStudy"
+          [pageIndex]="currentPageStudy" (page)="onPageChangeStudy($event)">
+        </mat-paginator>
+      </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card class="organizations mat-elevation-z4" *ngIf="selectedDiv === 'organizations'">
+      <mat-card-header>
+        <mat-card-title>Organizations</mat-card-title>
+      </mat-card-header>
+      <div class="organizationDiv">
+
+
+        <mat-card *ngFor="let organization of displayedOrganizations" class="mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-title>{{organization.name}}</mat-card-title>
+            <mat-card-subtitle>{{organization.description}}</mat-card-subtitle>
+
+          </mat-card-header>
+          <mat-divider></mat-divider>
+        </mat-card>
+      </div>
+      <mat-card-actions>
+        <mat-paginator [length]="totalOrganizations" [pageSize]="pageSizeOrg" [pageSizeOptions]="pageSizeOptionsOrg"
+          [pageIndex]="currentPageOrg" (page)="onPageChangeOrg($event)">
+        </mat-paginator>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card #profileDivContainer class="interests mat-elevation-z4" *ngIf="selectedDiv === 'interests'">
+      <mat-card-header>
+        <mat-card-title>Interests</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-chip-list>
+          <mat-chip *ngFor="let interest of interests">{{interest.keyword}}</mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card #profileDivContainer class="abilities mat-elevation-z4" *ngIf="selectedDiv === 'abilities'">
+      <mat-card-header>
+        <mat-card-title>Abilities</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-chip-list>
+          <mat-chip *ngFor="let ability of abilities">{{ability.keyword}}</mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="network mat-elevation-z4" *ngIf="selectedDiv === 'network'">
+      <mat-card-header>
+        <mat-card-title>Network</mat-card-title>
+      </mat-card-header>
+
+      <div class="networkButtons">
+
+
+        <button mat-button [color]="getButtonColorNetwork('Cooperations')" (click)="showDivNetwork('Cooperations')"
+          matTooltip="Cooperations represent researchers who have collaborated with the user on academic papers."
+          matTooltipClass="custom-tooltip-class">Cooperation</button>
+        <button mat-button [color]="getButtonColorNetwork('Reference')" (click)="showDivNetwork('Reference')"
+          matTooltip="References represent researchers who have cited the user on academic papers."
+          matTooltipClass="custom-tooltip-class">Reference</button>
+        <button mat-button [color]="getButtonColorNetwork('TopCooperation')" (click)="showDivNetwork('TopCooperation')"
+          matTooltip="Represent the top 5 researchers who have collaborated with the user on academic papers."
+          matTooltipClass="custom-tooltip-class">Top Cooperation</button>
+        <button mat-button [color]="getButtonColorNetwork('TopReference')" (click)="showDivNetwork('TopReference')"
+          matTooltip="Represent the top 5 researchers who have cited the user on academic papers."
+          matTooltipClass="custom-tooltip-class">Top
+          Reference</button>
+        <button mat-button [color]="getButtonColorNetwork('Followers')" (click)="showDivNetwork('Followers')"
+          matTooltip="Followers are the users who follow the user." matTooltipClass="custom-tooltip-class">
+          Followers</button>
+        <button mat-button [color]="getButtonColorNetwork('Followings')" (click)="showDivNetwork('Followings')"
+          matTooltip="Followings are the users that the user is currently following."
+          matTooltipClass="custom-tooltip-class">
+          Followings</button>
+      </div>
+      <mat-card-content>
+        <div class="cooperations" *ngIf="selectedDivNetwork === 'Cooperations'">
+
+          <mat-card class="mat-elevation-z0" *ngFor="let cooperationAuthor of displayedCooperations">
+            <mat-card-header>
+              <mat-card-title (click)="navigateToUser(cooperationAuthor.user_id)">{{cooperationAuthor.firstName}}
+                {{cooperationAuthor.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{cooperationAuthor.email}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+          </mat-card>
+
+          <mat-paginator [length]="totalCooperations" [pageSize]="pageSizeCooperations"
+            [pageSizeOptions]="pageSizeOptionsCooperations" [pageIndex]="currentPageCooperations"
+            (page)="onPageChangeCooperations($event)">
+          </mat-paginator>
+
+        </div>
+
+        <div class="cooperations" *ngIf="selectedDivNetwork === 'Reference'">
+          <mat-card class="mat-elevation-z0" *ngFor="let referenceAuthor of displayedRef">
+            <mat-card-header>
+              <mat-card-title (click)="navigateToUser(referenceAuthor.user_id)">{{referenceAuthor.firstName}}
+                {{referenceAuthor.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{referenceAuthor.email}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+          </mat-card>
+
+          <mat-paginator [length]="totalRef" [pageSize]="pageSizeRef" [pageSizeOptions]="pageSizeOptionsRef"
+            [pageIndex]="currentPageRef" (page)="onPageChangeRef($event)">
+          </mat-paginator>
+
+
+        </div>
+
+        <div class="cooperations" *ngIf="selectedDivNetwork === 'TopCooperation'">
+          <mat-card class="mat-elevation-z0" *ngFor="let topCooperation of displayedTopCoop">
+            <mat-card-header>
+              <mat-card-title (click)="navigateToUser(topCooperation.user_id)">{{topCooperation.firstName}}
+                {{topCooperation.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{topCooperation.email}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+          </mat-card>
+
+          <mat-paginator [length]="totalTopCoop" [pageSize]="pageSizeTopCoop" [pageSizeOptions]="pageSizeOptionsTopCoop"
+            [pageIndex]="currentPageTopCoop" (page)="onPageChangeTopCoop($event)">
+          </mat-paginator>
+
+        </div>
+
+        <div class="cooperations" *ngIf="selectedDivNetwork === 'TopReference'">
+          <mat-card class="mat-elevation-z0" *ngFor="let topReference of displayedTopRef">
+            <mat-card-header>
+              <mat-card-title (click)="navigateToUser(topReference.user_id)">{{topReference.firstName}}
+                {{topReference.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{topReference.email}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+          </mat-card>
+
+          <mat-paginator [length]="totalTopRef" [pageSize]="pageSizeTopRef" [pageSizeOptions]="pageSizeOptionsTopRef"
+            [pageIndex]="currentPageTopRef" (page)="onPageChangeTopRef($event)">
+          </mat-paginator>
+
+        </div>
+
+        <div class="followers" *ngIf="selectedDivNetwork === 'Followers'">
+
+          <mat-card *ngFor="let follower of displayedFollowers" class="mat-elevation-z0">
+            <mat-card-header>
+              <mat-card-title><span (click)="viewUserProfie(follower.user_id)">{{follower.firstName}}
+                  {{follower.lastName}}</span><button (click)="followSpecificUser(follower)"
+                  *ngIf="this.currentUser.user_id !=follower.user_id && currentUser.userRole!=='Admin'" mat-icon-button
+                  color="{{ follower.following ? 'accent' : 'primary' }}">
+                  <mat-icon><span class="material-symbols-outlined">
+                      {{ follower.following ? 'person_remove' : 'person_add' }}
+                    </span></mat-icon>
+                </button></mat-card-title>
+              <mat-card-subtitle>{{follower.email}} ({{follower.userName}})</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+          </mat-card>
+          <mat-paginator [length]="totalFollowers" [pageSize]="pageSizeFollowers"
+            [pageSizeOptions]="pageSizeOptionsFollowers" [pageIndex]="currentPageFollowers"
+            (page)="onPageChangeFollowers($event)">
+          </mat-paginator>
+
+        </div>
+
+        <div class="followings" *ngIf="selectedDivNetwork === 'Followings'">
+          <mat-card *ngFor="let following of displayedFollowings" class="mat-elevation-z0">
+            <mat-card-header>
+              <mat-card-title><span (click)="viewUserProfie(following.user_id)">{{following.firstName}}
+                  {{following.lastName}}</span><button (click)="followSpecificUser(following)"
+                  *ngIf="this.currentUser.user_id !=following.user_id  && currentUser.userRole!=='Admin'"
+                  mat-icon-button color="{{ following.following ? 'accent' : 'primary' }}">
+                  <mat-icon><span class="material-symbols-outlined">
+                      {{ following.following ? 'person_remove' : 'person_add' }}
+                    </span></mat-icon>
+                </button></mat-card-title>
+
+
+              <mat-card-subtitle>{{following.email}} ({{following.userName}})</mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+          </mat-card>
+          <mat-paginator [length]="totalFollowings" [pageSize]="pageSizeFollowings" [pageIndex]="currentPageFollowings"
+            [pageSizeOptions]="pageSizeOptionsFollowings" (page)="onPageChangeFollowings($event)">
+          </mat-paginator>
+
+
+        </div>
+
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class="endorsments mat-elevation-z4" *ngIf="selectedDiv === 'endorsments'">
+      <mat-card-header>
+        <mat-card-title>Endorsments</mat-card-title>
+        <mat-card-subtitle *ngIf="selectedValueEndorsement === 'Received'">Received</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="selectedValueEndorsement === 'Created'">Created</mat-card-subtitle>
+
+      </mat-card-header>
+
+
+      <div class="endorsments" *ngIf="selectedValueEndorsement === 'Received'">
+        <mat-card *ngFor="let endorsement of displayedEndorsements" class="mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-title>{{endorsement.endorsement}}</mat-card-title>
+            <mat-card-subtitle>{{endorsement.userCreator.firstName}}
+              {{endorsement.userCreator.lastName}} ({{endorsement.createdAt | date}})</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+
+          </mat-card-content>
+          <mat-divider></mat-divider>
+
+        </mat-card>
+        <mat-paginator [length]="totalEndorsements" [pageSize]="pageSizeEndorsements"
+          [pageIndex]="currentPageEndorsements" [pageSizeOptions]="pageSizeOptionsEndorsements"
+          (page)="onPageChangeEndorsements($event)">
+        </mat-paginator>
+      </div>
+
+      <div class="endorsments" *ngIf="selectedValueEndorsement === 'Created'">
+        <mat-card *ngFor="let endorsement of displayedEndorsementsCreated" class="mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-title>{{endorsement.endorsement}}</mat-card-title>
+            <mat-card-subtitle>{{endorsement.userCreator.firstName}}
+              {{endorsement.userCreator.lastName}} ({{endorsement.createdAt | date}})</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+
+          </mat-card-content>
+          <mat-divider></mat-divider>
+
+        </mat-card>
+        <mat-paginator [length]="totalEndorsementsCreated" [pageSize]="pageSizeEndorsementsCreated"
+          [pageIndex]="currentPageEndorsementsCreated" [pageSizeOptions]="pageSizeOptionsEndorsementsCreated"
+          (page)="onPageChangeEndorsementsCreated($event)">
+        </mat-paginator>
+      </div>
+
+      <mat-radio-group [(ngModel)]="selectedValueEndorsement">
+        <mat-radio-button value="Created">Created</mat-radio-button>
+        <mat-radio-button value="Received">Received</mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+
+  </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+<div class="userNotFound" *ngIf="!userData">
+
+  <div class="headerNotFound">
+    <button mat-icon-button>
+      <mat-icon><span class="material-symbols-outlined">
+          arrow_back_ios
+        </span></mat-icon>
+    </button>
+    <h2>User Not Found</h2>
+  </div>
+
+  <div>
+
+  </div>
+
+</div>

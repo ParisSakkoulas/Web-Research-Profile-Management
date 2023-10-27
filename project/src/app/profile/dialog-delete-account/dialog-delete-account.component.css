@@ -1,0 +1,16 @@
+span {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+mat-card {
+  background-color: #ffdbdb;
+}

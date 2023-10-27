@@ -1,0 +1,123 @@
+.fullBodySearchUsers {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.simpleCardClass {
+  width: 90%;
+  margin-top: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simpleCardClass form {
+  width: 100%;
+}
+
+
+.simpleCardClass mat-form-field {
+  width: 80%;
+}
+
+
+.sophisticatedCardClass {
+  width: 90%;
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.sophisticatedCardClass form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.settingsResultCardClass {
+  margin-top: 5%;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+
+
+.settingsResultCardClass mat-radio-button {
+  margin: 3%;
+}
+
+.resultCardClass {
+  width: 60%;
+}
+
+.resultCardClass mat-card {
+  margin-bottom: 3%;
+}
+
+
+.titleBasedResult span {
+  vertical-align: middle;
+}
+
+
+.titleBasedResult mat-card-header button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 20px;
+}
+
+
+mat-card-header mat-card-title span:hover {
+  cursor: pointer;
+  color: #76C7FF;
+
+}
+
+
+@media (max-width : 747px) {
+
+  .settingsResultCardClass {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settingsResultCardClass mat-card {
+    width: 80%;
+  }
+
+  .resultCardClass {
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+
+}
+
+
+@media (max-width : 340px) {
+  .settingsResultCardClass mat-card {
+    width: 90%;
+  }
+}

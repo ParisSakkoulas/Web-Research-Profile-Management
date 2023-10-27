@@ -1,0 +1,11 @@
+<div class="messageForDelete">
+
+  <p mat-dialog-title>Delete {{itemToDelete}}?</p>
+  <p>Are you sure you want to delete <b> "{{name}}"</b> ?</p>
+  <p>You can undo this action.</p>
+</div>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" mat-dialog-close="">Cancel</button>
+  <button class="mat-raised-button mat-warn" (click)="delete()">Delete</button>
+</mat-dialog-actions>

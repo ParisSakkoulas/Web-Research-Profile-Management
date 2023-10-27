@@ -1,0 +1,42 @@
+.fullBody {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.filterCard,
+.filterCardSection,
+.publicationsCard,
+.paginatorClass {
+  width: 70%;
+  border-radius: 0px;
+  margin-top: 5%;
+
+}
+
+.filterCard mat-form-field {
+  width: 100%;
+}
+
+.filterCardSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.publicationCard mat-card-title:hover {
+  cursor: pointer;
+  color: #86CBFC;
+}
+
+.infoClassSubtitle {
+  display: flex;
+  flex-direction: column;
+}
+
+span {
+  vertical-align: middle;
+}

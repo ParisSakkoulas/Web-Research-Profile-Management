@@ -1,0 +1,19 @@
+<p mat-dialog-title>Add New Organization</p>
+
+<form [formGroup]="setOrganization" (ngSubmit)="onSetOrganization()">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="Name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea rows="8" cols="80" matInput formControlName="Description"></textarea>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+    <button class="mat-raised-button mat-primary" type="submit">{{ buttonText }}</button>
+  </mat-dialog-actions>
+</form>

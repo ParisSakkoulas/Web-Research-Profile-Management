@@ -1,0 +1,15 @@
+<div class="fullBody">
+
+  <mat-card class="mat-elevation-z0">
+    <p mat-dialog-title><span class="material-symbols-outlined">
+        warning
+      </span>Delete Account</p>
+    <p>Are you sure you want to delete account of "{{userDataC?.firstName}} {{userDataC?.lastName}}"? With user name :
+      "{{userDataC?.userName}}"</p>
+    <p>All your informations will be lost.</p>
+  </mat-card>
+  <mat-dialog-actions>
+    <button class="mat-raised-button" type="button" (click)="closeMatDialog()">Cancel</button>
+    <button class="mat-raised-button mat-warn" type="submit" (click)="deleteAccount()">Delete</button>
+  </mat-dialog-actions>
+</div>

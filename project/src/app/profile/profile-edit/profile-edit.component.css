@@ -1,0 +1,137 @@
+.bodyPorfileEdit {
+  height: 100%;
+  margin-bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+
+.changeUserName,
+.settingHeader,
+.setOrganizations,
+.jobs,
+.studies,
+.abilities,
+.interests,
+.optionSection {
+  width: 50%;
+  margin-top: 4%;
+}
+
+.navCard {
+  margin-top: 5%;
+
+}
+
+.navCard mat-card,
+.settingHeader mat-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.changeUserName form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.changeUserName form mat-form-field {
+  width: 80%;
+}
+
+.actionButtons {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+.setOrganizations mat-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setOrganizations .buttonIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 24px;
+}
+
+.jobs mat-card,
+.studies mat-card {
+  margin-bottom: 2%;
+}
+
+.jobs mat-card .buttonIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 24px;
+}
+
+.studies mat-card .buttonIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 24px;
+}
+
+
+
+
+.abilities mat-form-field,
+.interests mat-form-field {
+  width: 80%;
+}
+
+.abilities input,
+.interests input {
+  margin-top: 8%;
+}
+
+.abilities mat-card,
+.interests mat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.interests {
+
+  margin-bottom: 10%;
+}
+
+
+@media (max-width : 806px) {
+
+  .changeUserName,
+  .settingHeader,
+  .setOrganizations,
+  .jobs,
+  .studies,
+  .abilities,
+  .interests,
+  .optionSection {
+    width: 90%;
+
+  }
+
+}
+
+
+@media (max-width : 410px) {
+
+  .pofileButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+}

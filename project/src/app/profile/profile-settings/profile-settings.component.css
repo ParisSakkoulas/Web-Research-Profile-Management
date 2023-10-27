@@ -1,0 +1,117 @@
+.fullBodySettings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4%;
+
+}
+
+
+
+mat-card {
+  width: 80%;
+  margin-top: 2%;
+}
+
+
+.settingsButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-error {
+  font-size: 15px;
+}
+
+
+
+.password form,
+.account form,
+.email form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2%;
+}
+
+.password form mat-form-field {
+  margin-top: 1%;
+}
+
+.account button {
+  margin-top: 1%;
+}
+
+.account span {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 30px;
+}
+
+.password button {
+  margin-top: 1%;
+}
+
+.password span {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 30px;
+}
+
+
+.email button {
+  margin-top: 1%;
+}
+
+.email span {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 30px;
+}
+
+
+
+
+
+
+@media (max-width : 527px) {
+
+  mat-card {
+    width: 85%;
+    margin-top: 5%;
+
+  }
+
+  .password form mat-form-field {
+    margin-top: 3%;
+  }
+
+
+}
+
+
+@media (max-width : 430px) {
+
+  .settingsButtons {
+    display: grid;
+    grid-template-columns: repeat(2);
+  }
+
+}
+
+
+
+
+@media (max-width : 400px) {
+  .account button {
+    margin-top: 10%;
+  }
+
+  .password button {
+    margin-top: 10%;
+  }
+
+}

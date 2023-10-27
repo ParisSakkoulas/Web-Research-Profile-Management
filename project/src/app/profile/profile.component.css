@@ -1,0 +1,379 @@
+.fullBodyPofile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.headerProfile,
+.bodyProfile,
+.footerProfile {
+  width: 100%;
+}
+
+
+.info,
+.publications,
+.jobsCard,
+.organizations,
+.studies,
+.abilities,
+.network,
+.stats,
+.endorsments,
+.interests {
+  margin: 4%;
+}
+
+.spinnerClass {
+  width: 100%;
+  margin: 4%;
+
+}
+
+mat-radio-group {
+  width: 100%;
+  margin: 3%;
+}
+
+mat-radio-button {
+  margin-right: 3%;
+}
+
+
+.publication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+}
+
+img:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.headerProfile input {
+  display: none;
+}
+
+.headerProfile {
+  margin: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerProfile mat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+
+
+.bodyProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.bodyProfile .bodyCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerProfile button,
+.studies button,
+.organizations button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+
+mat-radio-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.jobsCard,
+.studies,
+.organizations,
+.interests,
+.abilities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.abilities mat-card-content,
+.interests mat-card-content {
+  margin-top: 3%;
+}
+
+
+.jobsCard mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+.organizations mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+.studies mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+.info mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+.abilities mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+.interests mat-card-header button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+
+.stats mat-card-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+
+.cooperations mat-card-title:hover {
+  cursor: pointer;
+  color: rgb(0, 153, 255);
+}
+
+
+
+
+
+
+
+
+
+.headerProfile mat-card,
+.headerProfileActions mat-card,
+.bodyProfile mat-card,
+.footerProfile mat-card {
+  width: 80%;
+}
+
+.pofileButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filterPublicationProfileClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filterPublicationProfileClass mat-form-field {
+  width: 80%;
+}
+
+mat-card-title a {
+  text-decoration: none;
+  color: black;
+}
+
+
+.publicationStats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cooperations {
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.singleJobCard {
+  margin-bottom: 1%;
+  width: 100%;
+}
+
+.singleJobCard mat-card {
+  margin-bottom: 1%;
+
+}
+
+.singleJobCard button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 30px;
+}
+
+
+::ng-deep label.star {
+  padding: 0 5px !important;
+  font-size: 20px !important;
+  color: #86CBFC !important;
+
+  &:hover {
+    transform: rotate(0deg) scale(1.3) !important;
+
+  }
+
+
+}
+
+
+.followings,
+.followers,
+.endorsments {
+  padding: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.followings button,
+.followers button,
+.endorsments button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 40px;
+}
+
+.endorsments {
+  width: 100%;
+}
+
+.publicationPerYearStats {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.networkButtons {
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+
+@media (max-width : 999px) {
+
+  .pofileButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+
+}
+
+@media (max-width : 786px) {
+
+  .pofileButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+
+
+  .networkButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+
+  .headerProfile mat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .headerProfile .photo {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .headerProfile .info1 {
+    width: 100%;
+  }
+
+
+
+  .headerProfile .info2 {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width : 367px) {
+
+  .networkButtons {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 8px;
+  }
+
+
+}

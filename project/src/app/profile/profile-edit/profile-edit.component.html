@@ -1,0 +1,308 @@
+<div class="bodyPorfileEdit">
+
+
+  <div class="navCard">
+    <mat-card class="mat-elevation-z0">
+      <div>
+        <a [routerLink]="['/profile/myProfile']">Profile</a> > <a [routerLink]="['/profile/edit/'+profile_id]">Profile
+          Edit</a>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="settingHeader">
+    <mat-card class="mat-elevation-z4">
+
+      <mat-card-header>
+        <mat-card-title>
+          Profile Edit
+        </mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+  </div>
+
+  <div class="optionSection">
+
+    <mat-card class="mat-elevation-z4">
+      <div class="pofileButtons">
+        <button mat-button [color]="getButtonColor('info')" (click)="showDiv('info')">User Info</button>
+        <button mat-button [color]="getButtonColor('organizations')"
+          (click)="showDiv('organizations')">Organizations</button>
+        <button mat-button [color]="getButtonColor('jobs')" (click)="showDiv('jobs')">Jobs</button>
+        <button mat-button [color]="getButtonColor('studies')" (click)="showDiv('studies')">Studies</button>
+        <button mat-button [color]="getButtonColor('abilities')" (click)="showDiv('abilities')">Abilities</button>
+        <button mat-button [color]="getButtonColor('interests')" (click)="showDiv('interests')">Interests</button>
+      </div>
+    </mat-card>
+
+  </div>
+
+
+
+  <div class="changeUserName" *ngIf="selectedDiv === 'info'">
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          User Info<button mat-icon-button matTooltip="Change the field you want and then press 'Save'."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+      <form [formGroup]="changeUserNameForm" (ngSubmit)="onChangeUserName()">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>User Name</mat-label>
+          <input matInput formControlName="userName">
+        </mat-form-field>
+        <div class="actionButtons">
+          <button mat-raised-button type="submit" color="primary">Save</button>
+        </div>
+      </form>
+    </mat-card>
+
+  </div>
+
+  <div class="setOrganizations" *ngIf="selectedDiv === 'organizations'">
+
+    <mat-card class="mat-elevation-z4">
+
+
+      <mat-card-header>
+        <mat-card-title>Organizations<button mat-icon-button
+            matTooltip="You can add new organization from the right button and edit the existing ones as needed."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button></mat-card-title>
+        <button mat-icon-button class="buttonIcon" (click)="openDialogForAddingOrganization('create')">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+        </button>
+      </mat-card-header>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let organization of displayedOrganizations">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{organization.name}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{organization.description}}</p>
+          <mat-action-row>
+            <button mat-button color="warn" (click)="openDialogForDeleteOrganization(organization)">Delete</button>
+            <button mat-button color="primary"
+              (click)="openDialogForAddingOrganization('edit',organization)">Edit</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-card-actions>
+        <mat-paginator [length]="totalOrganizations" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="currentPage" (page)="onPageChange($event)">
+        </mat-paginator>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+
+  <div class="jobs" *ngIf="selectedDiv === 'jobs'">
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Jobs<button mat-icon-button
+            matTooltip="You can add new job from the right button and edit the existing ones as needed."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button> </mat-card-title>
+        <button mat-icon-button class="buttonIcon" (click)="openDialogForAddingNewJob('create')">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+        </button>
+
+      </mat-card-header>
+
+      <mat-card *ngFor="let job of displayedJobs" class="mat-elevation-z0">
+        <mat-card-header>
+          <mat-card-title>{{job.title}}</mat-card-title> <button mat-icon-button class="buttonIcon"
+            [matMenuTriggerFor]="menuForEditJob">
+            <span class="material-symbols-outlined">
+              more_vert
+            </span>
+          </button>
+          <mat-menu #menuForEditJob="matMenu">
+            <button mat-menu-item (click)="openDialogForAddingNewJob('edit',job)">
+              <mat-icon><span class="material-symbols-outlined">
+                  edit
+                </span></mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="openDialogForDeleteJob(job)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+          <mat-card-subtitle>{{job.company}} ( {{job.startYear}} - {{job.endYear}} )</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card-actions>
+        <mat-paginator [length]="totalJobs" [pageSize]="pageSizeJob" [pageSizeOptions]="pageSizeOptionsJob"
+          [pageIndex]="currentPageJob" (page)="onPageChangeJob($event)">
+        </mat-paginator>
+      </mat-card-actions>
+
+    </mat-card>
+
+
+
+
+  </div>
+
+
+  <div class="studies" *ngIf="selectedDiv === 'studies'">
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Studies<button mat-icon-button
+            matTooltip="You can add new study from the right button and edit the existing ones as needed."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button>
+        </mat-card-title>
+        <button mat-icon-button class="buttonIcon" (click)="openDialogForAddingNewStudy('create')">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+        </button>
+
+      </mat-card-header>
+
+      <mat-card *ngFor="let study of displayedStudies" class="mat-elevation-z0">
+        <mat-card-header>
+          <mat-card-title>{{study.title}}</mat-card-title> <button mat-icon-button class="buttonIcon"
+            [matMenuTriggerFor]="menuForEditJob">
+            <span class="material-symbols-outlined">
+              more_vert
+            </span>
+          </button>
+          <mat-menu #menuForEditJob="matMenu">
+            <button mat-menu-item (click)="openDialogForAddingNewStudy('edit',study)">
+              <mat-icon><span class="material-symbols-outlined">
+                  edit
+                </span></mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="openDialogForDeleteStudy(study)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+          <mat-card-subtitle>{{study.endYear}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card-actions>
+        <mat-paginator [length]="totalStudies" [pageSize]="pageSizeStudy" [pageSizeOptions]="pageSizeOptionsStudy"
+          [pageIndex]="currentPageStudy" (page)="onPageChangeStudy($event)">
+        </mat-paginator>
+      </mat-card-actions>
+
+    </mat-card>
+
+  </div>
+
+  <div class="abilities" *ngIf="selectedDiv === 'abilities'">
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Abilities<button mat-icon-button
+            matTooltip="To add new abilities, simply fill out the form at the bottom, press the Enter key, and then click the 'Save' button."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Abilities</mat-label>
+        <mat-chip-list #chipGrid aria-label="Enter keywords" [formControl]="abilitiesFormControl">
+          <mat-chip *ngFor="let ability of abilities" (removed)="removeKeyword(ability)">
+            {{ability}}
+            <button matChipRemove aria-label="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <input placeholder="New ability..." [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="add($event)" />
+      </mat-form-field>
+      <div class="actionButtons">
+        <button mat-raised-button type="button" color="primary" (click)="saveAbilities()">Save</button>
+      </div>
+    </mat-card>
+
+  </div>
+
+
+  <div class="interests" *ngIf="selectedDiv === 'interests'">
+
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title>
+          Interests<button mat-icon-button
+            matTooltip="To add new interests, simply fill out the form at the bottom, press the Enter key, and then click the 'Save' button."
+            matTooltipClass="custom-tooltip-class">
+            <mat-icon><span class="material-symbols-outlined">
+                help
+              </span></mat-icon>
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Interests</mat-label>
+        <mat-chip-list #chipInterestGrid aria-label="Enter keywords" [formControl]="interestFormControl">
+          <mat-chip *ngFor="let interest of interests" (removed)="removeInterest(interest)">
+            {{interest}}
+            <button matChipRemove aria-label="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <input placeholder="New interest..." [matChipInputFor]="chipInterestGrid"
+          (matChipInputTokenEnd)="addInterest($event)" />
+      </mat-form-field>
+      <div class="actionButtons">
+        <button mat-raised-button type="button" color="primary" (click)="saveInterests()">Save</button>
+      </div>
+    </mat-card>
+
+  </div>
+
+
+
+</div>

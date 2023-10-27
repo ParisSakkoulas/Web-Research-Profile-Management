@@ -1,0 +1,13 @@
+.messageForDeletionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 128%;
+}
+
+
+mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
