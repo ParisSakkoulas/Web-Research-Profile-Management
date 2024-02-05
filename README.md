@@ -1,9 +1,9 @@
 # Web-Research-Profile-Management
-Welcome to our Academic Net web application designed to revolutionize the way academic publications and research profiles are managed within the scholarly community. This innovative platform caters to researchers and academic professionals, providing a seamless and efficient solution for handling academic publications and networking with peers.
+Welcome to our Academic Net Web application designed to revolutionize the way academic publications and research profiles are managed within the scholarly community. This innovative platform caters to researchers and academic professionals, providing a seamless and efficient solution for handling academic publications and networking with peers.
 
 Key Features:
 
-Publication Management: Our application simplifies the process of adding publications and managing associated information. Users can input their publications effortlessly using their names, surnames, or specific publication details, ensuring hassle-free data entry.
+Publication Management: The application simplifies the process of adding publications and managing associated information. Users can input their publications effortlessly using their names, surnames, or specific publication details, ensuring hassle-free data entry.
 
 Automated Publication Retrieval: Harnessing the power of technology, our application automatically fetches user publications from renowned online sources, saving valuable time and effort.
 
