@@ -22,12 +22,13 @@ Some Functions:
 
 User sign up
 
-Visitors can register to the web app using their email. After the submition of the form the visitors enter sign up and the system send them a link to their respective email.
+Visitors can register to the web app using their email. After the submition of the form the visitors press sign up button and the system send them a link to their respective email.
 
 ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
 
 ![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
 
+On their email the visitors should press Verify to verify their account. After that the system will display a success message about the verification.
 ![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
 
 ![image](https://github.com/user-attachments/assets/9df4ac2a-72ec-4eec-96c6-36121cf29728)
@@ -35,10 +36,9 @@ Visitors can register to the web app using their email. After the submition of t
 
 
 User log in
-
+User can log in to the web app using either their user name or their email.
 ![image](https://github.com/user-attachments/assets/3cb7749e-763a-444a-aea2-64dc54eaedd9)
 
-![image](https://github.com/user-attachments/assets/68048564-4a01-4b65-9676-57b25822c696)
 
 
 Add publication
