@@ -18,9 +18,11 @@ Watch some actions here :  https://youtu.be/YiPjXM8boso
 and here : https://youtu.be/6utLfX4sVms
 
 
-Some Functions 
+Some Functions:
 
 User sign up
+
+Visitors can register to the web app using their email. After the submition of the form the visitors enter sign up and the system send them a link to their respective email.
 
 ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
 
