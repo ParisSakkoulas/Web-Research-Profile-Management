@@ -56,24 +56,22 @@ Some Functions:
 
 
 
-  User log in
-  Search User
-  Endorse User
-  Change Name user
-  Add Organization
-  Add Skills
-  Change Email
-  Change Password
-  Delete User
-
-
-  Add Publication
-  Add Many Publications
-  Search Publication
-  Export Meta Data Of Publicaton
-  Upload Files of Publication
-  Request  Files of Publication
-  Export CV 
+  1. User log in
+  2. Search User
+  3. Endorse User
+  4. Add Organization
+  5. Add Skill
+  6. Change Email
+  7. Change Password
+  8. Delete Account
+  9. Add Single Publication
+  10. Add Many Publications
+  11. Search Publication/s
+  12. Export Meta Data of Publication
+  13. Upload Files of Publication
+  14. Request Files of Publication
+  15. Export CV.
+  
      
    
 
