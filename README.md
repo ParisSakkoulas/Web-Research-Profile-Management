@@ -53,8 +53,8 @@ Some Functions:
   1. User sign up
 
   1.1 Visitors can register to the web app using their email. After the submition of the form the visitors press sign up button and the system send them a link to their respective email.
-     ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
-     ![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
+      ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
+  ![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
 
   1.2 On their email the visitors should press Verify to verify their account. After that the system will display a success message about the verification.
      ![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
