@@ -58,7 +58,8 @@ Some Functions:
 
   1.2 On their email the visitors should press Verify to verify their account.
      ![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
-      After that the system will display a success message about the verification.
+     
+   After that the system will display a success message about the verification.
      ![image](https://github.com/user-attachments/assets/9df4ac2a-72ec-4eec-96c6-36121cf29728)
 
   2. User log in
