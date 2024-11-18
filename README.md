@@ -50,47 +50,21 @@ Installation instructions:
 
 Some Functions:
 
-User sign up
+  1. User sign up
 
-Visitors can register to the web app using their email. After the submition of the form the visitors press sign up button and the system send them a link to their respective email.
+  1.1 Visitors can register to the web app using their email. After the submition of the form the visitors press sign up button and the system send them a link to their respective email.
+     ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
+     ![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
 
-![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
+  1.2 On their email the visitors should press Verify to verify their account. After that the system will display a success message about the verification.
+     ![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
+     ![image](https://github.com/user-attachments/assets/9df4ac2a-72ec-4eec-96c6-36121cf29728)
 
-![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
-
-On their email the visitors should press Verify to verify their account. After that the system will display a success message about the verification.
-![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
-
-![image](https://github.com/user-attachments/assets/9df4ac2a-72ec-4eec-96c6-36121cf29728)
-
-
-
-User log in
-User can log in to the web app using either their user name or their email.
-![image](https://github.com/user-attachments/assets/3cb7749e-763a-444a-aea2-64dc54eaedd9)
+  2. User log in
+     2.1 User can log in to the web app using either their user name or their email.
+     ![image](https://github.com/user-attachments/assets/3cb7749e-763a-444a-aea2-64dc54eaedd9)
 
 
-
-Add publication
-
-![image](https://github.com/user-attachments/assets/e2b0b274-515c-4f22-890b-38bf0ac6d801)
-
-
-![image](https://github.com/user-attachments/assets/eec64617-4437-4422-9ab5-9d433119d79f)
-
-![image](https://github.com/user-attachments/assets/a8878d5c-c57c-4ea5-b461-54bb1ec56d30)
-
-
-![image](https://github.com/user-attachments/assets/0098602a-215e-4f1f-9710-2fd25f3593e7)
-![image](https://github.com/user-attachments/assets/5888c21a-6663-45dd-8abd-c9313e9fdc0d)
-
-
-Search Publication
-
-![image](https://github.com/user-attachments/assets/736c33c3-d679-4459-9d89-e0ec89fc2902)
-![image](https://github.com/user-attachments/assets/6df829df-0831-464e-8377-f13710b33a1d)
-![image](https://github.com/user-attachments/assets/d1b3abb8-603e-4294-8ee2-0b09c30ea3a7)
-![image](https://github.com/user-attachments/assets/d40ea8d2-5b77-4820-a452-8cf4ad7b9b87)
 
 
 
