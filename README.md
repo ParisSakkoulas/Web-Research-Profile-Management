@@ -18,6 +18,36 @@ Watch some actions here :  https://youtu.be/YiPjXM8boso
 and here : https://youtu.be/6utLfX4sVms
 
 
+Prerequisites to run the project:
+  1. Node.js should be installed on the system. You can see official Node.js website to download and install it.
+  2. Two Operating System (OS) terminals. One will be used for Front-End and the other for the Back-End.
+  3. MySQL Server: MySQL Database Management System should be installed.
+  4. MySQL Client. A MySQL client must be installed to be used to create the base of the system.
+  5. Git should be installed.
+
+
+
+Installation instructions:
+  1. With one terminal open we can clone our project's repository from GitHub.We go to the directory of the choice where we want to save the project and
+      type it command “git clone https://github.com/ParisSakkoulas/Web-Research-Profile-Management.git”, like shown below in the image below.
+     ![image](https://github.com/user-attachments/assets/dc19f324-62ed-4478-99b8-d5a40118f5d3)
+
+  2. Initially in both of the terminals we should be transferred to the space where it was stored our software project on the OS.In the first terminal that will
+      be used for the backend, we should go to the server space/subfolder. we will run the command nodemon index.js to start it. We can see the result of
+      the execution in the image bellow.
+      ![image](https://github.com/user-attachments/assets/d22f8287-c714-494d-8fc9-4f2d945a87aa)
+
+  3. Then, as shown below to start the front end, we use the other terminal to go to the project sub-folder of the project (i.e. it is at the same level as the server sub-folder).
+      As we mentioned in the previous chapter, the implementation of the Front End was done using Angular. Generally, to start an angular program, the command “ng serve”.
+      However, since this work required the use of TLS certificates, it should type the "npm start" command to install and use the certificates by keys sub-folder of the project.
+      ![image](https://github.com/user-attachments/assets/559eae91-b7a8-4fc7-8b74-9de2725ae13a)
+
+  4. Then, we can see that our proposed application is working properly by opening one browser on the local hosting system and typing https://localhost:4200.
+     ![image](https://github.com/user-attachments/assets/9e022d72-ed70-4dfa-8ca9-746484875fd7)
+
+
+
+
 Some Functions:
 
 User sign up
