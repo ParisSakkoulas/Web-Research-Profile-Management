@@ -53,14 +53,27 @@ Some Functions:
   User sign up
      1. Visitors can register to the web app using their email. After the submition of the form the visitors press sign up button and the system send them a link to their respective email.
       ![image](https://github.com/user-attachments/assets/438cf657-8258-43cd-b796-0ef6356676d4)
-     ![image](https://github.com/user-attachments/assets/55e63c08-f33f-4749-8df6-16458ad649ae)
-     2. On their email the visitors should press Verify to verify their account.
-     ![image](https://github.com/user-attachments/assets/a9b14de9-f39a-4fa3-bd28-066998ccbe6e)
-     3. After that the system will display a success message about the verification.
-   ![image](https://github.com/user-attachments/assets/9df4ac2a-72ec-4eec-96c6-36121cf29728)
 
 
-User log in
+
+  User log in
+  Search User
+  Endorse User
+  Change Name user
+  Add Organization
+  Add Skills
+  Change Email
+  Change Password
+  Delete User
+
+
+  Add Publication
+  Add Many Publications
+  Search Publication
+  Export Meta Data Of Publicaton
+  Upload Files of Publication
+  Request  Files of Publication
+  Export CV 
      
    
 
